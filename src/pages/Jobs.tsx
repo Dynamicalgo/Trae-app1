@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Plus, Users, Calendar } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const jobs = [
   {
@@ -33,6 +34,12 @@ const jobs = [
 ];
 
 export default function Jobs() {
+  const navigate = useNavigate();
+
+  const handleJobClick = (jobTitle: string) => {
+    navigate(`/candidates?job=${encodeURIComponent(jobTitle)}`);
+  };
+
   return (
     <div className="space-y-8">
       <div className="flex justify-between items-center">
@@ -49,7 +56,11 @@ export default function Jobs() {
       
       <div className="grid gap-4">
         {jobs.map((job) => (
-          <Card key={job.id} className="p-6">
+          <Card 
+            key={job.id} 
+            className="p-6 cursor-pointer hover:bg-gray-50 transition-colors"
+            onClick={() => handleJobClick(job.title)}
+          >
             <div className="flex items-center justify-between">
               <div className="space-y-1">
                 <h3 className="text-lg font-medium">{job.title}</h3>
@@ -70,7 +81,6 @@ export default function Jobs() {
                     Closing {job.closing}
                   </span>
                 </div>
-                <Button variant="outline">View Details</Button>
               </div>
             </div>
           </Card>

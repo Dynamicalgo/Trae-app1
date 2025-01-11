@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import {
   Table,
   TableBody,
@@ -46,6 +47,8 @@ const candidates = [
 ];
 
 export default function Candidates() {
+  const [searchParams] = useSearchParams();
+  const jobTitle = searchParams.get('job') || 'All';
   const [selectedCandidates, setSelectedCandidates] = useState<number[]>([]);
 
   const toggleCandidate = (candidateId: number) => {
@@ -65,7 +68,9 @@ export default function Candidates() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Candidates</h1>
+          <h1 className="text-2xl font-bold tracking-tight">
+            {jobTitle} Candidates
+          </h1>
           <p className="text-muted-foreground">
             Review and select candidates for interviews
           </p>
