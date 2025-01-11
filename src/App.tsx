@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Layout } from "./components/layout/Layout";
 import Dashboard from "./pages/Dashboard";
 import Jobs from "./pages/Jobs";
+import Candidates from "./pages/Candidates";
 
 const queryClient = new QueryClient();
 
@@ -19,6 +20,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/jobs" element={<Jobs />} />
+            <Route path="/candidates" element={<Candidates />} />
           </Routes>
         </Layout>
       </BrowserRouter>

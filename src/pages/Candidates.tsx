@@ -25,7 +25,7 @@ const candidates = [
   {
     id: 1,
     name: "John Smith",
-    profilePhoto: "/placeholder.svg",
+    profilePhoto: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
     email: "john.smith@example.com",
     phone: "+1 234 567 8900",
     expectedSalary: 75000,
@@ -35,14 +35,14 @@ const candidates = [
   {
     id: 2,
     name: "Sarah Johnson",
-    profilePhoto: "/placeholder.svg",
+    profilePhoto: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952",
     email: "sarah.j@example.com",
     phone: "+1 234 567 8901",
     expectedSalary: 82000,
     resumeUrl: "#",
     aiScore: 92,
   },
-  // ... Add more mock candidates as needed
+  // Add more mock candidates as needed
 ];
 
 export default function Candidates() {
