@@ -5,12 +5,14 @@ import {
   Video,
   TrendingUp 
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const stats = [
   {
     title: "Active Jobs",
     value: "12",
     icon: Briefcase,
+    href: "/jobs",
     trend: "+2 this week",
   },
   {
@@ -34,6 +36,8 @@ const stats = [
 ];
 
 export default function Dashboard() {
+  const navigate = useNavigate();
+
   return (
     <div className="space-y-8">
       <div>
@@ -45,7 +49,11 @@ export default function Dashboard() {
       
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat) => (
-          <Card key={stat.title} className="p-6">
+          <Card 
+            key={stat.title} 
+            className={`p-6 ${stat.href ? 'cursor-pointer hover:bg-gray-50 transition-colors' : ''}`}
+            onClick={() => stat.href && navigate(stat.href)}
+          >
             <div className="flex items-center space-x-4">
               <div className="p-2 bg-primary/10 rounded-full">
                 <stat.icon className="h-6 w-6 text-primary" />
