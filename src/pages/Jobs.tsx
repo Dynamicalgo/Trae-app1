@@ -148,7 +148,7 @@ export default function Jobs() {
                 ) : (
                   <Link2 className="mr-2 h-4 w-4" />
                 )}
-                {copiedId === job.id ? "Copied!" : "Copy URL"}
+                {copiedId === job.id ? "Copied!" : "Copy job form URL"}
               </Button>
             </div>
           </div>
