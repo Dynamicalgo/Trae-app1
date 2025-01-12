@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Table,
   TableBody,
@@ -9,7 +9,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Card } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { 
@@ -18,10 +17,11 @@ import {
   Mail, 
   Phone, 
   DollarSign,
-  Star
+  Star,
+  Trash2
 } from "lucide-react";
 
-// Mock data - replace with actual API data later
+// Using the same mock data for now
 const candidates = [
   {
     id: 1,
@@ -43,25 +43,21 @@ const candidates = [
     resumeUrl: "#",
     aiScore: 92,
   },
-  // Add more mock candidates as needed
 ];
 
-export default function Candidates() {
-  const [searchParams] = useSearchParams();
+export default function InterviewList() {
   const navigate = useNavigate();
-  const jobTitle = searchParams.get('job') || 'All';
-  const [selectedCandidates, setSelectedCandidates] = useState<number[]>([]);
+  const [shortlistedCandidates, setShortlistedCandidates] = useState(candidates);
 
-  const toggleCandidate = (candidateId: number) => {
-    setSelectedCandidates(prev => 
-      prev.includes(candidateId)
-        ? prev.filter(id => id !== candidateId)
-        : [...prev, candidateId]
+  const handleDelete = (candidateId: number) => {
+    setShortlistedCandidates(prev => 
+      prev.filter(candidate => candidate.id !== candidateId)
     );
   };
 
-  const handleProceedToInterview = () => {
-    navigate('/interview-list');
+  const handleCreateSession = () => {
+    // Will implement interview session creation later
+    console.log("Creating interview session");
   };
 
   return (
@@ -69,17 +65,14 @@ export default function Candidates() {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-2xl font-bold tracking-tight">
-            {jobTitle} Candidates
+            Interview List
           </h1>
           <p className="text-muted-foreground">
-            Review and select candidates for interviews
+            Manage your shortlisted candidates and create interview sessions
           </p>
         </div>
-        <Button 
-          onClick={handleProceedToInterview}
-          disabled={selectedCandidates.length === 0}
-        >
-          Shortlist ({selectedCandidates.length})
+        <Button onClick={handleCreateSession}>
+          Proceed to create interview session
         </Button>
       </div>
 
@@ -87,23 +80,17 @@ export default function Candidates() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-12">Select</TableHead>
               <TableHead>Candidate</TableHead>
               <TableHead>Contact</TableHead>
               <TableHead>Resume</TableHead>
               <TableHead>Expected Salary</TableHead>
-              <TableHead className="text-right">AI Score</TableHead>
+              <TableHead>AI Score</TableHead>
+              <TableHead className="text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {candidates.map((candidate) => (
+            {shortlistedCandidates.map((candidate) => (
               <TableRow key={candidate.id}>
-                <TableCell>
-                  <Checkbox
-                    checked={selectedCandidates.includes(candidate.id)}
-                    onCheckedChange={() => toggleCandidate(candidate.id)}
-                  />
-                </TableCell>
                 <TableCell>
                   <div className="flex items-center space-x-3">
                     <Avatar>
@@ -139,11 +126,21 @@ export default function Candidates() {
                     <span>${candidate.expectedSalary.toLocaleString()}</span>
                   </div>
                 </TableCell>
-                <TableCell className="text-right">
-                  <div className="flex items-center justify-end space-x-2">
+                <TableCell>
+                  <div className="flex items-center space-x-2">
                     <Star className="h-4 w-4 text-yellow-400 fill-yellow-400" />
                     <span className="font-medium">{candidate.aiScore}/100</span>
                   </div>
+                </TableCell>
+                <TableCell className="text-right">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => handleDelete(candidate.id)}
+                    className="text-red-500 hover:text-red-600 hover:bg-red-50"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
