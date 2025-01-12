@@ -49,7 +49,10 @@ export default function Jobs() {
             Manage your job postings and track applications
           </p>
         </div>
-        <Button className="bg-primary hover:bg-primary/90">
+        <Button 
+          className="bg-primary hover:bg-primary/90"
+          onClick={() => navigate("/post-job")}
+        >
           <Plus className="mr-2 h-4 w-4" /> Post New Job
         </Button>
       </div>
