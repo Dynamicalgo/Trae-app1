@@ -61,7 +61,7 @@ export default function Candidates() {
   };
 
   const handleProceedToInterview = () => {
-    navigate('/interview-list');
+    navigate('/interviews');
   };
 
   return (

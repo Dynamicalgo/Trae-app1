@@ -15,7 +15,7 @@ function App() {
           <Route path="/jobs" element={<Jobs />} />
           <Route path="/candidates" element={<Candidates />} />
           <Route path="/post-job" element={<PostJob />} />
-          <Route path="/interview-list" element={<InterviewList />} />
+          <Route path="/interviews" element={<InterviewList />} />
         </Routes>
       </Layout>
     </Router>
