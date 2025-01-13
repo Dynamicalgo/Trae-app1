@@ -59,7 +59,6 @@ export default function Jobs() {
         description: "Job application URL has been copied to clipboard.",
       });
       
-      // Reset the copied state after 2 seconds
       setTimeout(() => {
         setCopiedId(null);
       }, 2000);
@@ -89,9 +88,9 @@ export default function Jobs() {
         </Button>
       </div>
       
-      <div className="grid gap-4">
+      <div className="grid gap-6">
         {jobs.map((job) => (
-          <div key={job.id} className="space-y-3">
+          <div key={job.id}>
             <Card 
               className="p-6 cursor-pointer hover:bg-gray-50 transition-colors"
               onClick={() => handleJobClick(job.title)}
@@ -120,24 +119,24 @@ export default function Jobs() {
               </div>
             </Card>
             
-            <div className="flex gap-2 px-2">
+            <div className="flex gap-2 mt-2">
               <Button
-                variant="outline"
+                variant="ghost"
                 size="sm"
-                className="flex-1"
+                className="text-muted-foreground hover:text-foreground"
                 onClick={(e) => {
                   e.stopPropagation();
                   handleEditJob(job.id);
                 }}
               >
                 <Edit2 className="mr-2 h-4 w-4" />
-                Edit Job
+                Edit
               </Button>
               
               <Button
-                variant="outline"
+                variant="ghost"
                 size="sm"
-                className="flex-1"
+                className="text-muted-foreground hover:text-foreground"
                 onClick={(e) => {
                   e.stopPropagation();
                   handleCopyUrl(job.id, job.title);
@@ -148,7 +147,7 @@ export default function Jobs() {
                 ) : (
                   <Link2 className="mr-2 h-4 w-4" />
                 )}
-                {copiedId === job.id ? "Copied!" : "Copy job form URL"}
+                {copiedId === job.id ? "Copied!" : "Copy URL"}
               </Button>
             </div>
           </div>
