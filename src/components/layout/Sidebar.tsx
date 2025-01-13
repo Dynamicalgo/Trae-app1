@@ -2,7 +2,8 @@ import { Link, useLocation } from "react-router-dom";
 import { 
   Briefcase, 
   Users, 
-  Video, 
+  Video,
+  PlayCircle, 
   BarChart,
   Menu
 } from "lucide-react";
@@ -28,9 +29,14 @@ const navItems = [
     href: "/candidates",
   },
   {
-    title: "Interviews",
+    title: "Shortlisted",
     icon: Video,
     href: "/interviews",
+  },
+  {
+    title: "Create Interview",
+    icon: PlayCircle,
+    href: "/create-interview",
   },
 ];
 

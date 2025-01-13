@@ -5,6 +5,7 @@ import Jobs from "./pages/Jobs";
 import Candidates from "./pages/Candidates";
 import PostJob from "./pages/PostJob";
 import InterviewList from "./pages/InterviewList";
+import CreateInterview from "./pages/CreateInterview";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/candidates" element={<Candidates />} />
           <Route path="/post-job" element={<PostJob />} />
           <Route path="/interviews" element={<InterviewList />} />
+          <Route path="/create-interview" element={<CreateInterview />} />
         </Routes>
       </Layout>
     </Router>

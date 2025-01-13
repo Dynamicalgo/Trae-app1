@@ -56,8 +56,7 @@ export default function InterviewList() {
   };
 
   const handleCreateSession = () => {
-    // Will implement interview session creation later
-    console.log("Creating interview session");
+    navigate('/create-interview');
   };
 
   return (
@@ -65,7 +64,7 @@ export default function InterviewList() {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-2xl font-bold tracking-tight">
-            Interview List
+            Shortlisted Candidates
           </h1>
           <p className="text-muted-foreground">
             Manage your shortlisted candidates and create interview sessions
