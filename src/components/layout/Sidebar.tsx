@@ -58,7 +58,11 @@ export function Sidebar() {
         )}
       >
         <div className="flex h-16 items-center border-b px-6">
-          <h1 className="text-xl font-bold text-primary">AI Recruiter</h1>
+          <img 
+            src="/lovable-uploads/35cee2f9-1f94-4626-930c-cbfed4a21b40.png" 
+            alt="Hey Rocket Logo" 
+            className="h-8"
+          />
         </div>
         <nav className="space-y-1 p-4">
           {navItems.map((item) => (
