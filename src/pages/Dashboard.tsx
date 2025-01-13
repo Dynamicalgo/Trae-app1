@@ -6,6 +6,8 @@ import {
   TrendingUp 
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+import { Line, LineChart, XAxis, YAxis, ResponsiveContainer } from "recharts";
 
 const stats = [
   {
@@ -34,6 +36,42 @@ const stats = [
     trend: "+2% this month",
   },
 ];
+
+// Sample data for the chart
+const chartData = [
+  { month: 'Jan', jobs: 8, candidates: 80, interviews: 20, hireRate: 60 },
+  { month: 'Feb', jobs: 10, candidates: 100, interviews: 25, hireRate: 62 },
+  { month: 'Mar', jobs: 9, candidates: 120, interviews: 28, hireRate: 65 },
+  { month: 'Apr', jobs: 11, candidates: 130, interviews: 30, hireRate: 66 },
+  { month: 'May', jobs: 12, candidates: 148, interviews: 32, hireRate: 68 },
+];
+
+const chartConfig = {
+  jobs: {
+    label: "Active Jobs",
+    theme: {
+      light: "#1E40AF",
+    },
+  },
+  candidates: {
+    label: "Total Candidates",
+    theme: {
+      light: "#60A5FA",
+    },
+  },
+  interviews: {
+    label: "Pending Interviews",
+    theme: {
+      light: "#10B981",
+    },
+  },
+  hireRate: {
+    label: "Hire Rate (%)",
+    theme: {
+      light: "#6366F1",
+    },
+  },
+};
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -71,6 +109,64 @@ export default function Dashboard() {
           </Card>
         ))}
       </div>
+
+      <Card className="p-6">
+        <h2 className="text-lg font-semibold mb-6">Recruitment Metrics Overview</h2>
+        <div className="h-[400px]">
+          <ChartContainer config={chartConfig}>
+            <LineChart data={chartData} margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
+              <XAxis 
+                dataKey="month" 
+                stroke="#888888"
+                fontSize={12}
+                tickLine={false}
+                axisLine={false}
+              />
+              <YAxis
+                stroke="#888888"
+                fontSize={12}
+                tickLine={false}
+                axisLine={false}
+                tickFormatter={(value) => `${value}`}
+              />
+              <ChartTooltip
+                content={({ active, payload }) => {
+                  if (!active || !payload) return null;
+                  return <ChartTooltipContent payload={payload} />;
+                }}
+              />
+              <Line
+                type="monotone"
+                dataKey="jobs"
+                strokeWidth={2}
+                dot={false}
+                activeDot={{ r: 4 }}
+              />
+              <Line
+                type="monotone"
+                dataKey="candidates"
+                strokeWidth={2}
+                dot={false}
+                activeDot={{ r: 4 }}
+              />
+              <Line
+                type="monotone"
+                dataKey="interviews"
+                strokeWidth={2}
+                dot={false}
+                activeDot={{ r: 4 }}
+              />
+              <Line
+                type="monotone"
+                dataKey="hireRate"
+                strokeWidth={2}
+                dot={false}
+                activeDot={{ r: 4 }}
+              />
+            </LineChart>
+          </ChartContainer>
+        </div>
+      </Card>
     </div>
   );
 }
