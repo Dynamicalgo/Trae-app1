@@ -7,7 +7,7 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
-import { Line, LineChart, XAxis, YAxis, ResponsiveContainer } from "recharts";
+import { Line, LineChart, XAxis, YAxis } from "recharts";
 
 const stats = [
   {
@@ -51,24 +51,28 @@ const chartConfig = {
     label: "Active Jobs",
     theme: {
       light: "#1E40AF",
+      dark: "#3B82F6"
     },
   },
   candidates: {
     label: "Total Candidates",
     theme: {
       light: "#60A5FA",
+      dark: "#93C5FD"
     },
   },
   interviews: {
     label: "Pending Interviews",
     theme: {
       light: "#10B981",
+      dark: "#34D399"
     },
   },
   hireRate: {
     label: "Hire Rate (%)",
     theme: {
       light: "#6366F1",
+      dark: "#818CF8"
     },
   },
 };
