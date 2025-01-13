@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Plus, Users, Calendar, Edit2, Link2, Check } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 
 const jobs = [
   {
@@ -119,36 +119,41 @@ export default function Jobs() {
               </div>
             </Card>
             
-            <div className="flex gap-2 mt-2">
-              <Button
-                variant="ghost"
-                size="sm"
-                className="text-muted-foreground hover:text-foreground"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleEditJob(job.id);
-                }}
-              >
-                <Edit2 className="mr-2 h-4 w-4" />
-                Edit
-              </Button>
-              
-              <Button
-                variant="ghost"
-                size="sm"
-                className="text-muted-foreground hover:text-foreground"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleCopyUrl(job.id, job.title);
-                }}
-              >
-                {copiedId === job.id ? (
-                  <Check className="mr-2 h-4 w-4" />
-                ) : (
-                  <Link2 className="mr-2 h-4 w-4" />
-                )}
-                {copiedId === job.id ? "Copied!" : "Copy URL"}
-              </Button>
+            <div className="space-y-1 mt-2">
+              <div className="flex gap-2">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-muted-foreground hover:text-foreground"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleEditJob(job.id);
+                  }}
+                >
+                  <Edit2 className="mr-2 h-4 w-4" />
+                  Edit
+                </Button>
+                
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-muted-foreground hover:text-foreground"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleCopyUrl(job.id, job.title);
+                  }}
+                >
+                  {copiedId === job.id ? (
+                    <Check className="mr-2 h-4 w-4" />
+                  ) : (
+                    <Link2 className="mr-2 h-4 w-4" />
+                  )}
+                  {copiedId === job.id ? "Copied!" : "Copy URL"}
+                </Button>
+              </div>
+              <p className="text-xs text-muted-foreground pl-2">
+                {`${window.location.origin}/apply/${job.id}-${job.title.toLowerCase().replace(/ /g, '-')}`}
+              </p>
             </div>
           </div>
         ))}
