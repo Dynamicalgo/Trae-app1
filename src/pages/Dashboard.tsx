@@ -6,8 +6,8 @@ import {
   TrendingUp 
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
-import { Line, LineChart, XAxis, YAxis } from "recharts";
+import { ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent } from "@/components/ui/chart";
+import { Line, LineChart, XAxis, YAxis, CartesianGrid } from "recharts";
 
 const stats = [
   {
@@ -37,7 +37,7 @@ const stats = [
   },
 ];
 
-// Sample data for the chart
+// Updated sample data for the chart
 const chartData = [
   { month: 'Jan', jobs: 8, candidates: 80, interviews: 20, hireRate: 60 },
   { month: 'Feb', jobs: 10, candidates: 100, interviews: 25, hireRate: 62 },
@@ -50,29 +50,29 @@ const chartConfig = {
   jobs: {
     label: "Active Jobs",
     theme: {
-      light: "#1E40AF",
-      dark: "#3B82F6"
+      light: "#8B5CF6",
+      dark: "#A78BFA"
     },
   },
   candidates: {
     label: "Total Candidates",
     theme: {
-      light: "#60A5FA",
-      dark: "#93C5FD"
+      light: "#F97316",
+      dark: "#FB923C"
     },
   },
   interviews: {
     label: "Pending Interviews",
     theme: {
-      light: "#10B981",
-      dark: "#34D399"
+      light: "#0EA5E9",
+      dark: "#38BDF8"
     },
   },
   hireRate: {
     label: "Hire Rate (%)",
     theme: {
-      light: "#6366F1",
-      dark: "#818CF8"
+      light: "#D946EF",
+      dark: "#E879F9"
     },
   },
 };
@@ -118,20 +118,42 @@ export default function Dashboard() {
         <h2 className="text-lg font-semibold mb-6">Recruitment Metrics Overview</h2>
         <div className="h-[400px]">
           <ChartContainer config={chartConfig}>
-            <LineChart data={chartData} margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
+            <LineChart 
+              data={chartData} 
+              margin={{ top: 20, right: 20, bottom: 40, left: 40 }}
+            >
+              <CartesianGrid 
+                strokeDasharray="3 3" 
+                stroke="#E2E8F0" 
+                vertical={false}
+              />
               <XAxis 
                 dataKey="month" 
-                stroke="#888888"
+                stroke="#64748B"
                 fontSize={12}
                 tickLine={false}
                 axisLine={false}
+                dy={10}
+                label={{ 
+                  value: 'Months', 
+                  position: 'bottom',
+                  offset: 20,
+                  style: { fill: '#64748B' }
+                }}
               />
               <YAxis
-                stroke="#888888"
+                stroke="#64748B"
                 fontSize={12}
                 tickLine={false}
                 axisLine={false}
-                tickFormatter={(value) => `${value}`}
+                dx={-10}
+                label={{ 
+                  value: 'Count / Percentage', 
+                  angle: -90, 
+                  position: 'left',
+                  offset: 0,
+                  style: { fill: '#64748B' }
+                }}
               />
               <ChartTooltip
                 content={({ active, payload }) => {
@@ -139,33 +161,38 @@ export default function Dashboard() {
                   return <ChartTooltipContent payload={payload} />;
                 }}
               />
+              <ChartLegend 
+                content={({ payload }) => (
+                  <ChartLegendContent payload={payload} />
+                )}
+              />
               <Line
                 type="monotone"
                 dataKey="jobs"
                 strokeWidth={2}
-                dot={false}
-                activeDot={{ r: 4 }}
+                dot={{ r: 4 }}
+                activeDot={{ r: 6 }}
               />
               <Line
                 type="monotone"
                 dataKey="candidates"
                 strokeWidth={2}
-                dot={false}
-                activeDot={{ r: 4 }}
+                dot={{ r: 4 }}
+                activeDot={{ r: 6 }}
               />
               <Line
                 type="monotone"
                 dataKey="interviews"
                 strokeWidth={2}
-                dot={false}
-                activeDot={{ r: 4 }}
+                dot={{ r: 4 }}
+                activeDot={{ r: 6 }}
               />
               <Line
                 type="monotone"
                 dataKey="hireRate"
                 strokeWidth={2}
-                dot={false}
-                activeDot={{ r: 4 }}
+                dot={{ r: 4 }}
+                activeDot={{ r: 6 }}
               />
             </LineChart>
           </ChartContainer>
