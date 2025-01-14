@@ -48,7 +48,6 @@ const stats = [
   },
 ];
 
-// Simplified data with fewer metrics
 const chartData = [
   { month: 'Jan', value: 30 },
   { month: 'Feb', value: 45 },
@@ -107,11 +106,11 @@ export default function Dashboard() {
       <Card className="p-6">
         <div className="space-y-4">
           <h2 className="text-lg font-semibold">Monthly Progress</h2>
-          <div className="h-[400px] w-full">
+          <div className="h-[300px] w-full">
             <ChartContainer config={chartConfig}>
               <LineChart 
                 data={chartData}
-                margin={{ top: 20, right: 30, left: 40, bottom: 40 }}
+                margin={{ top: 5, right: 5, left: 5, bottom: 5 }}
               >
                 <CartesianGrid 
                   strokeDasharray="3 3" 
