@@ -7,7 +7,7 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent } from "@/components/ui/chart";
-import { Line, LineChart, XAxis, YAxis, CartesianGrid } from "recharts";
+import { Line, LineChart, XAxis, YAxis, CartesianGrid, ResponsiveContainer, ReferenceLine } from "recharts";
 
 const stats = [
   {
@@ -50,15 +50,15 @@ const chartConfig = {
   jobs: {
     label: "Active Jobs",
     theme: {
-      light: "#8B5CF6",
-      dark: "#A78BFA"
+      light: "#4F46E5",
+      dark: "#6366F1"
     },
   },
   candidates: {
     label: "Total Candidates",
     theme: {
-      light: "#F97316",
-      dark: "#FB923C"
+      light: "#EC4899",
+      dark: "#F472B6"
     },
   },
   interviews: {
@@ -71,14 +71,18 @@ const chartConfig = {
   hireRate: {
     label: "Hire Rate (%)",
     theme: {
-      light: "#D946EF",
-      dark: "#E879F9"
+      light: "#10B981",
+      dark: "#34D399"
     },
   },
 };
 
 export default function Dashboard() {
   const navigate = useNavigate();
+
+  // Find max values for reference lines
+  const maxCandidates = Math.max(...chartData.map(d => d.candidates));
+  const maxHireRate = Math.max(...chartData.map(d => d.hireRate));
 
   return (
     <div className="space-y-8">
@@ -115,16 +119,30 @@ export default function Dashboard() {
       </div>
 
       <Card className="p-6">
-        <h2 className="text-lg font-semibold mb-6">Recruitment Metrics Overview</h2>
-        <div className="h-[400px]">
+        <div className="flex flex-col space-y-3">
+          <h2 className="text-lg font-semibold">Recruitment Metrics Overview</h2>
+          <div className="flex justify-center">
+            <ChartLegend 
+              content={({ payload }) => (
+                <ChartLegendContent 
+                  payload={payload} 
+                  className="mb-4"
+                />
+              )}
+            />
+          </div>
+        </div>
+        <div className="h-[400px] mt-4">
           <ChartContainer config={chartConfig}>
             <LineChart 
               data={chartData} 
-              margin={{ top: 20, right: 20, bottom: 40, left: 40 }}
+              margin={{ top: 20, right: 30, bottom: 40, left: 50 }}
             >
               <CartesianGrid 
                 strokeDasharray="3 3" 
                 stroke="#E2E8F0" 
+                opacity={0.4}
+                horizontal={true}
                 vertical={false}
               />
               <XAxis 
@@ -137,8 +155,12 @@ export default function Dashboard() {
                 label={{ 
                   value: 'Months', 
                   position: 'bottom',
-                  offset: 20,
-                  style: { fill: '#64748B' }
+                  offset: 25,
+                  style: { 
+                    fill: '#64748B',
+                    fontSize: 14,
+                    fontWeight: 500
+                  }
                 }}
               />
               <YAxis
@@ -150,49 +172,65 @@ export default function Dashboard() {
                 label={{ 
                   value: 'Count / Percentage', 
                   angle: -90, 
-                  position: 'left',
-                  offset: 0,
-                  style: { fill: '#64748B' }
+                  position: 'insideLeft',
+                  offset: -35,
+                  style: { 
+                    fill: '#64748B',
+                    fontSize: 14,
+                    fontWeight: 500
+                  }
                 }}
+              />
+              <ReferenceLine 
+                y={maxCandidates} 
+                stroke="#EC4899" 
+                strokeDasharray="3 3" 
+                opacity={0.3}
+              />
+              <ReferenceLine 
+                y={maxHireRate} 
+                stroke="#10B981" 
+                strokeDasharray="3 3" 
+                opacity={0.3}
               />
               <ChartTooltip
                 content={({ active, payload }) => {
                   if (!active || !payload) return null;
-                  return <ChartTooltipContent payload={payload} />;
+                  return (
+                    <ChartTooltipContent 
+                      payload={payload}
+                      className="shadow-lg border-primary/10"
+                    />
+                  );
                 }}
-              />
-              <ChartLegend 
-                content={({ payload }) => (
-                  <ChartLegendContent payload={payload} />
-                )}
               />
               <Line
                 type="monotone"
                 dataKey="jobs"
-                strokeWidth={2}
-                dot={{ r: 4 }}
-                activeDot={{ r: 6 }}
+                strokeWidth={2.5}
+                dot={{ r: 4, strokeWidth: 2 }}
+                activeDot={{ r: 6, strokeWidth: 2 }}
               />
               <Line
                 type="monotone"
                 dataKey="candidates"
-                strokeWidth={2}
-                dot={{ r: 4 }}
-                activeDot={{ r: 6 }}
+                strokeWidth={2.5}
+                dot={{ r: 4, strokeWidth: 2 }}
+                activeDot={{ r: 6, strokeWidth: 2 }}
               />
               <Line
                 type="monotone"
                 dataKey="interviews"
-                strokeWidth={2}
-                dot={{ r: 4 }}
-                activeDot={{ r: 6 }}
+                strokeWidth={2.5}
+                dot={{ r: 4, strokeWidth: 2 }}
+                activeDot={{ r: 6, strokeWidth: 2 }}
               />
               <Line
                 type="monotone"
                 dataKey="hireRate"
-                strokeWidth={2}
-                dot={{ r: 4 }}
-                activeDot={{ r: 6 }}
+                strokeWidth={2.5}
+                dot={{ r: 4, strokeWidth: 2 }}
+                activeDot={{ r: 6, strokeWidth: 2 }}
               />
             </LineChart>
           </ChartContainer>
