@@ -9,18 +9,15 @@ import { useNavigate } from "react-router-dom";
 import { 
   ChartContainer, 
   ChartTooltip, 
-  ChartTooltipContent, 
-  ChartLegend, 
-  ChartLegendContent 
+  ChartTooltipContent 
 } from "@/components/ui/chart";
 import { 
   Line, 
   LineChart, 
   XAxis, 
   YAxis, 
-  CartesianGrid, 
-  ResponsiveContainer, 
-  ReferenceLine 
+  CartesianGrid,
+  ResponsiveContainer
 } from "recharts";
 
 const stats = [
@@ -51,52 +48,27 @@ const stats = [
   },
 ];
 
-// Updated sample data for the chart
+// Simplified data with fewer metrics
 const chartData = [
-  { month: 'Jan', jobs: 8, candidates: 80, interviews: 20, hireRate: 60 },
-  { month: 'Feb', jobs: 10, candidates: 100, interviews: 25, hireRate: 62 },
-  { month: 'Mar', jobs: 9, candidates: 120, interviews: 28, hireRate: 65 },
-  { month: 'Apr', jobs: 11, candidates: 130, interviews: 30, hireRate: 66 },
-  { month: 'May', jobs: 12, candidates: 148, interviews: 32, hireRate: 68 },
+  { month: 'Jan', value: 30 },
+  { month: 'Feb', value: 45 },
+  { month: 'Mar', value: 38 },
+  { month: 'Apr', value: 50 },
+  { month: 'May', value: 65 },
 ];
 
 const chartConfig = {
-  jobs: {
-    label: "Active Jobs",
+  primary: {
+    label: "Monthly Progress",
     theme: {
-      light: "#4F46E5",
-      dark: "#6366F1"
+      light: "#1E40AF",
+      dark: "#3B82F6"
     },
-  },
-  candidates: {
-    label: "Total Candidates",
-    theme: {
-      light: "#EC4899",
-      dark: "#F472B6"
-    },
-  },
-  interviews: {
-    label: "Pending Interviews",
-    theme: {
-      light: "#0EA5E9",
-      dark: "#38BDF8"
-    },
-  },
-  hireRate: {
-    label: "Hire Rate (%)",
-    theme: {
-      light: "#10B981",
-      dark: "#34D399"
-    },
-  },
+  }
 };
 
 export default function Dashboard() {
   const navigate = useNavigate();
-
-  // Find max values for reference lines
-  const maxCandidates = Math.max(...chartData.map(d => d.candidates));
-  const maxHireRate = Math.max(...chartData.map(d => d.hireRate));
 
   return (
     <div className="space-y-8">
@@ -133,121 +105,52 @@ export default function Dashboard() {
       </div>
 
       <Card className="p-6">
-        <div className="flex flex-col space-y-3">
-          <h2 className="text-lg font-semibold">Recruitment Metrics Overview</h2>
-          <ChartContainer config={chartConfig}>
-            <div className="flex justify-center">
-              <ChartLegend 
-                content={({ payload }) => (
-                  <ChartLegendContent 
-                    payload={payload} 
-                    className="mb-4"
-                  />
-                )}
-              />
-            </div>
-            <div className="h-[400px] mt-4">
+        <div className="space-y-4">
+          <h2 className="text-lg font-semibold">Monthly Progress</h2>
+          <div className="h-[400px] w-full">
+            <ChartContainer config={chartConfig}>
               <LineChart 
-                data={chartData} 
-                margin={{ top: 20, right: 30, bottom: 40, left: 50 }}
+                data={chartData}
+                margin={{ top: 20, right: 30, left: 40, bottom: 40 }}
               >
                 <CartesianGrid 
                   strokeDasharray="3 3" 
-                  stroke="#E2E8F0" 
-                  opacity={0.4}
-                  horizontal={true}
-                  vertical={false}
+                  vertical={false} 
+                  stroke="#e5e7eb"
                 />
                 <XAxis 
-                  dataKey="month" 
-                  stroke="#64748B"
-                  fontSize={12}
+                  dataKey="month"
+                  stroke="#6b7280"
                   tickLine={false}
                   axisLine={false}
                   dy={10}
-                  label={{ 
-                    value: 'Months', 
-                    position: 'bottom',
-                    offset: 25,
-                    style: { 
-                      fill: '#64748B',
-                      fontSize: 14,
-                      fontWeight: 500
-                    }
-                  }}
                 />
                 <YAxis
-                  stroke="#64748B"
-                  fontSize={12}
+                  stroke="#6b7280"
                   tickLine={false}
                   axisLine={false}
                   dx={-10}
-                  label={{ 
-                    value: 'Count / Percentage', 
-                    angle: -90, 
-                    position: 'insideLeft',
-                    offset: -35,
-                    style: { 
-                      fill: '#64748B',
-                      fontSize: 14,
-                      fontWeight: 500
-                    }
-                  }}
-                />
-                <ReferenceLine 
-                  y={maxCandidates} 
-                  stroke="#EC4899" 
-                  strokeDasharray="3 3" 
-                  opacity={0.3}
-                />
-                <ReferenceLine 
-                  y={maxHireRate} 
-                  stroke="#10B981" 
-                  strokeDasharray="3 3" 
-                  opacity={0.3}
                 />
                 <ChartTooltip
                   content={({ active, payload }) => {
-                    if (!active || !payload) return null;
+                    if (!active || !payload?.length) return null;
                     return (
                       <ChartTooltipContent 
                         payload={payload}
-                        className="shadow-lg border-primary/10"
                       />
                     );
                   }}
                 />
                 <Line
                   type="monotone"
-                  dataKey="jobs"
-                  strokeWidth={2.5}
-                  dot={{ r: 4, strokeWidth: 2 }}
-                  activeDot={{ r: 6, strokeWidth: 2 }}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="candidates"
-                  strokeWidth={2.5}
-                  dot={{ r: 4, strokeWidth: 2 }}
-                  activeDot={{ r: 6, strokeWidth: 2 }}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="interviews"
-                  strokeWidth={2.5}
-                  dot={{ r: 4, strokeWidth: 2 }}
-                  activeDot={{ r: 6, strokeWidth: 2 }}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="hireRate"
-                  strokeWidth={2.5}
+                  dataKey="value"
+                  strokeWidth={2}
                   dot={{ r: 4, strokeWidth: 2 }}
                   activeDot={{ r: 6, strokeWidth: 2 }}
                 />
               </LineChart>
-            </div>
-          </ChartContainer>
+            </ChartContainer>
+          </div>
         </div>
       </Card>
     </div>
