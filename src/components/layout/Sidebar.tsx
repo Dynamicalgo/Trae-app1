@@ -2,11 +2,12 @@ import { Link, useLocation } from "react-router-dom";
 import { 
   Briefcase, 
   Users, 
-  Video,
+  Clipboard,
   PlayCircle, 
   BarChart,
   Menu,
-  Send
+  Send,
+  Robot
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -31,12 +32,12 @@ const navItems = [
   },
   {
     title: "Shortlisted",
-    icon: Video,
+    icon: Clipboard,
     href: "/interviews",
   },
   {
     title: "Create A.I Interview",
-    icon: PlayCircle,
+    icon: Robot,
     href: "/create-interview",
   },
   {
