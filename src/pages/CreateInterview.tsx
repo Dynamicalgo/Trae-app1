@@ -72,7 +72,29 @@ export default function CreateInterview() {
 
   return (
     <div className="flex gap-6 h-[calc(100vh-6rem)]">
-      {/* Left Column - Settings */}
+      {/* Left Column - Workflow Builder */}
+      <div className="w-1/2 bg-background rounded-lg border">
+        <div className="p-4 border-b">
+          <h2 className="text-lg font-semibold">Conversation Flow</h2>
+          <p className="text-sm text-muted-foreground">Design your agent's conversation flow</p>
+        </div>
+        <div style={{ height: 'calc(100% - 85px)' }}>
+          <ReactFlow
+            nodes={nodes}
+            edges={edges}
+            onNodesChange={onNodesChange}
+            onEdgesChange={onEdgesChange}
+            onConnect={onConnect}
+            fitView
+          >
+            <Controls />
+            <MiniMap />
+            <Background />
+          </ReactFlow>
+        </div>
+      </div>
+
+      {/* Right Column - Settings */}
       <div className="w-1/2 overflow-y-auto space-y-6">
         <div className="flex justify-between items-center">
           <div>
@@ -227,28 +249,6 @@ export default function CreateInterview() {
             </div>
           </form>
         </Form>
-      </div>
-
-      {/* Right Column - Workflow Builder */}
-      <div className="w-1/2 bg-background rounded-lg border">
-        <div className="p-4 border-b">
-          <h2 className="text-lg font-semibold">Workflow Builder</h2>
-          <p className="text-sm text-muted-foreground">Design your agent's conversation flow</p>
-        </div>
-        <div style={{ height: 'calc(100% - 85px)' }}>
-          <ReactFlow
-            nodes={nodes}
-            edges={edges}
-            onNodesChange={onNodesChange}
-            onEdgesChange={onEdgesChange}
-            onConnect={onConnect}
-            fitView
-          >
-            <Controls />
-            <MiniMap />
-            <Background />
-          </ReactFlow>
-        </div>
       </div>
     </div>
   );
