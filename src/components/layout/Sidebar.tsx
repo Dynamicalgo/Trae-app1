@@ -5,7 +5,8 @@ import {
   Video,
   PlayCircle, 
   BarChart,
-  Menu
+  Menu,
+  Send
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -34,9 +35,14 @@ const navItems = [
     href: "/interviews",
   },
   {
-    title: "Create Interview",
+    title: "Create A.I Interview",
     icon: PlayCircle,
     href: "/create-interview",
+  },
+  {
+    title: "Send Invite",
+    icon: Send,
+    href: "/send-invite",
   },
 ];
 
