@@ -5,13 +5,16 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { ChevronDown, Globe, Languages, MessageSquare, Mic, Phone, PieChart, Plus } from "lucide-react";
 
 export default function CreateInterview() {
   const navigate = useNavigate();
   const form = useForm({
     defaultValues: {
-      description: "",
-      questions: [""],
+      globalPrompt: "",
+      language: "English",
+      voice: "Grace",
+      model: "GPT-4",
       knowledgeBase: null as File | null,
     },
   });
@@ -21,36 +24,77 @@ export default function CreateInterview() {
     navigate("/send-invite");
   };
 
-  const addQuestion = () => {
-    const currentQuestions = form.getValues("questions");
-    form.setValue("questions", [...currentQuestions, ""]);
-  };
-
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight">
-          Create A.I Interview Session
-        </h1>
-        <p className="text-muted-foreground">
-          Set up and customize your AI-powered interview session
-        </p>
+    <div className="space-y-6 max-w-4xl mx-auto">
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight">
+            Agent Settings
+          </h1>
+          <p className="text-muted-foreground">
+            Configure your AI interviewer settings and behavior
+          </p>
+        </div>
+        <Button variant="outline">Test</Button>
       </div>
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          {/* Voice & Language Section */}
           <Card className="p-6">
-            <h2 className="text-lg font-semibold mb-4">1. Describe Interview Content</h2>
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-2">
+                <Languages className="h-5 w-5" />
+                <h2 className="text-lg font-semibold">Voice & Language</h2>
+              </div>
+              <ChevronDown className="h-5 w-5" />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <FormField
+                control={form.control}
+                name="language"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Language</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="voice"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Voice</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            </div>
+          </Card>
+
+          {/* Global Prompt Section */}
+          <Card className="p-6">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-2">
+                <Globe className="h-5 w-5" />
+                <h2 className="text-lg font-semibold">Global Prompt</h2>
+              </div>
+              <ChevronDown className="h-5 w-5" />
+            </div>
             <FormField
               control={form.control}
-              name="description"
+              name="globalPrompt"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Interview Description</FormLabel>
                   <FormControl>
-                    <Textarea
-                      placeholder="Describe the purpose and context of this interview..."
-                      className="min-h-[100px]"
+                    <Textarea 
+                      placeholder="## Task overview ##&#10;You are calling to interview a candidate for a job.&#10;&#10;## Response Guideline ##&#10;Adapt and Guess: Try to understand transcripts...&#10;Stay in Character: Keep conversations within your role's scope..."
+                      className="min-h-[200px]"
                       {...field}
                     />
                   </FormControl>
@@ -59,47 +103,73 @@ export default function CreateInterview() {
             />
           </Card>
 
+          {/* Knowledge Base Section */}
           <Card className="p-6">
-            <h2 className="text-lg font-semibold mb-4">2. Interview Questions</h2>
-            {form.watch("questions").map((_, index) => (
-              <FormField
-                key={index}
-                control={form.control}
-                name={`questions.${index}`}
-                render={({ field }) => (
-                  <FormItem className="mb-4">
-                    <FormLabel>Question {index + 1}</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Enter your question..." {...field} />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-            ))}
-            <Button type="button" variant="outline" onClick={addQuestion}>
-              Add Question
-            </Button>
-          </Card>
-
-          <Card className="p-6">
-            <h2 className="text-lg font-semibold mb-4">3. Knowledge Base</h2>
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-2">
+                <MessageSquare className="h-5 w-5" />
+                <h2 className="text-lg font-semibold">Knowledge Base</h2>
+              </div>
+              <ChevronDown className="h-5 w-5" />
+            </div>
             <FormField
               control={form.control}
               name="knowledgeBase"
               render={({ field: { value, onChange, ...field } }) => (
                 <FormItem>
-                  <FormLabel>Upload PDF Document</FormLabel>
                   <FormControl>
-                    <Input
-                      type="file"
-                      accept=".pdf"
-                      onChange={(e) => onChange(e.target.files?.[0] || null)}
-                      {...field}
-                    />
+                    <div className="flex flex-col items-center justify-center border-2 border-dashed rounded-lg p-6 text-center">
+                      <p className="text-sm text-muted-foreground mb-2">
+                        Add knowledge base to provide context to the agent.
+                      </p>
+                      <Button type="button" variant="outline" onClick={() => document.getElementById('file-upload')?.click()}>
+                        <Plus className="h-4 w-4 mr-2" />
+                        Add
+                      </Button>
+                      <input
+                        id="file-upload"
+                        type="file"
+                        className="hidden"
+                        accept=".pdf,.doc,.docx"
+                        onChange={(e) => onChange(e.target.files?.[0] || null)}
+                        {...field}
+                      />
+                    </div>
                   </FormControl>
                 </FormItem>
               )}
             />
+          </Card>
+
+          {/* Additional Settings Sections */}
+          <Card className="p-6">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Mic className="h-5 w-5" />
+                <h2 className="text-lg font-semibold">Speech Settings</h2>
+              </div>
+              <ChevronDown className="h-5 w-5" />
+            </div>
+          </Card>
+
+          <Card className="p-6">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Phone className="h-5 w-5" />
+                <h2 className="text-lg font-semibold">Call Settings</h2>
+              </div>
+              <ChevronDown className="h-5 w-5" />
+            </div>
+          </Card>
+
+          <Card className="p-6">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <PieChart className="h-5 w-5" />
+                <h2 className="text-lg font-semibold">Post-Call Analysis</h2>
+              </div>
+              <ChevronDown className="h-5 w-5" />
+            </div>
           </Card>
 
           <div className="flex justify-end">
