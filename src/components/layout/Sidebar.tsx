@@ -7,7 +7,7 @@ import {
   BarChart,
   Menu,
   Send,
-  Robot
+  Bot
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -37,7 +37,7 @@ const navItems = [
   },
   {
     title: "Create A.I Interview",
-    icon: Robot,
+    icon: Bot,
     href: "/create-interview",
   },
   {
