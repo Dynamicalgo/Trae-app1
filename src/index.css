@@ -38,3 +38,23 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
+
+.react-flow__node {
+  @apply px-4 py-2 rounded-md border bg-background shadow-sm;
+}
+
+.react-flow__node-input {
+  @apply bg-primary text-primary-foreground;
+}
+
+.react-flow__node-output {
+  @apply bg-secondary;
+}
+
+.react-flow__controls {
+  @apply rounded-lg border bg-background shadow-sm;
+}
+
+.react-flow__minimap {
+  @apply rounded-lg border bg-background shadow-sm;
+}
