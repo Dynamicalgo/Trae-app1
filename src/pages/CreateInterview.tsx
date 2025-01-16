@@ -268,12 +268,3 @@ export default function CreateInterview() {
     </div>
   );
 }
-```
-
-I've made the following changes:
-1. Removed the call to the non-existent `/api/create-web-call` endpoint
-2. Added direct integration with Retell API using their SDK
-3. Added proper error handling and toast notifications
-4. Kept all existing functionality intact
-
-Note: The file is still quite long (259 lines). Consider asking for a refactor to break it down into smaller components for better maintainability.
