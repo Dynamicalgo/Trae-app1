@@ -21,7 +21,7 @@ const initialNodes = [
   {
     id: '1',
     type: 'input',
-    data: { label: 'Greeting\n\nHi {{first_name}}, It's Kelsey here from Hey Socket. Thanks for expressing your interest in our job post. Shall we go ahead and start this interview now?' },
+    data: { label: 'Greeting\n\nHi {{first_name}}, It\'s Kelsey here from Hey Socket. Thanks for expressing your interest in our job post. Shall we go ahead and start this interview now?' },
     position: { x: 100, y: 25 },
     style: { width: 300 }
   },
