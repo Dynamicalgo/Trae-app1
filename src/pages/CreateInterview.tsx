@@ -6,50 +6,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { ChevronDown, Globe, Languages, MessageSquare, Mic, Phone, PieChart, Plus } from "lucide-react";
-import {
-  ReactFlow,
-  MiniMap,
-  Controls,
-  Background,
-  useNodesState,
-  useEdgesState,
-  addEdge,
-} from '@xyflow/react';
-import '@xyflow/react/dist/style.css';
+import { RetellWebClient } from "retell-client-js-sdk";
+import { useToast } from "@/components/ui/use-toast";
 
-const initialNodes = [
-  {
-    id: '1',
-    type: 'input',
-    data: { label: 'Start Call' },
-    position: { x: 250, y: 25 },
-  },
-  {
-    id: '2',
-    data: { label: 'Introduction' },
-    position: { x: 250, y: 125 },
-  },
-  {
-    id: '3',
-    data: { label: 'Ask Questions' },
-    position: { x: 250, y: 225 },
-  },
-  {
-    id: '4',
-    type: 'output',
-    data: { label: 'End Call' },
-    position: { x: 250, y: 325 },
-  },
-];
-
-const initialEdges = [
-  { id: 'e1-2', source: '1', target: '2' },
-  { id: 'e2-3', source: '2', target: '3' },
-  { id: 'e3-4', source: '3', target: '4' },
-];
+const AGENT_ID = "agent_98e7f1d1c951078b86a23f3ddb";
 
 export default function CreateInterview() {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const form = useForm({
     defaultValues: {
       globalPrompt: "",
@@ -60,10 +24,63 @@ export default function CreateInterview() {
     },
   });
 
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const startCall = async () => {
+    try {
+      const retellClient = new RetellWebClient();
+      
+      // Call your backend endpoint to get the access token
+      const response = await fetch('/api/create-web-call', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ agentId: AGENT_ID }),
+      });
+      
+      const { accessToken } = await response.json();
 
-  const onConnect = (params: any) => setEdges((eds) => addEdge(params, eds));
+      // Start the call with Retell
+      await retellClient.startCall({
+        accessToken,
+        sampleRate: 24000,
+        captureDeviceId: "default",
+        playbackDeviceId: "default",
+        emitRawAudioSamples: false,
+      });
+
+      // Set up event listeners
+      retellClient.on("call_started", () => {
+        toast({
+          title: "Call Started",
+          description: "You are now connected to the AI agent",
+        });
+      });
+
+      retellClient.on("call_ended", () => {
+        toast({
+          title: "Call Ended",
+          description: "The call has been completed",
+        });
+      });
+
+      retellClient.on("error", (error) => {
+        console.error("An error occurred:", error);
+        toast({
+          title: "Error",
+          description: "An error occurred during the call",
+          variant: "destructive",
+        });
+      });
+
+    } catch (error) {
+      console.error("Failed to start call:", error);
+      toast({
+        title: "Error",
+        description: "Failed to start the call",
+        variant: "destructive",
+      });
+    }
+  };
 
   const onSubmit = (data: any) => {
     console.log(data);
@@ -72,25 +89,16 @@ export default function CreateInterview() {
 
   return (
     <div className="flex gap-6 h-[calc(100vh-6rem)]">
-      {/* Left Column - Workflow Builder */}
+      {/* Left Column - Conversation Flow */}
       <div className="w-1/2 bg-background rounded-lg border">
         <div className="p-4 border-b">
           <h2 className="text-lg font-semibold">Conversation Flow</h2>
           <p className="text-sm text-muted-foreground">Design your agent's conversation flow</p>
         </div>
-        <div style={{ height: 'calc(100% - 85px)' }}>
-          <ReactFlow
-            nodes={nodes}
-            edges={edges}
-            onNodesChange={onNodesChange}
-            onEdgesChange={onEdgesChange}
-            onConnect={onConnect}
-            fitView
-          >
-            <Controls />
-            <MiniMap />
-            <Background />
-          </ReactFlow>
+        <div className="p-6">
+          <div className="text-center text-muted-foreground">
+            Configure your agent's settings on the right and use the Test button to try out the conversation.
+          </div>
         </div>
       </div>
 
@@ -98,14 +106,10 @@ export default function CreateInterview() {
       <div className="w-1/2 overflow-y-auto space-y-6">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-2xl font-bold tracking-tight">
-              Agent Settings
-            </h1>
-            <p className="text-muted-foreground">
-              Configure your AI interviewer settings and behavior
-            </p>
+            <h1 className="text-2xl font-bold tracking-tight">Agent Settings</h1>
+            <p className="text-muted-foreground">Configure your AI interviewer settings and behavior</p>
           </div>
-          <Button variant="outline">Test</Button>
+          <Button variant="outline" onClick={startCall}>Test</Button>
         </div>
 
         <Form {...form}>
