@@ -28,8 +28,8 @@ export default function CreateInterview() {
     try {
       const retellClient = new RetellWebClient();
       
-      // Create the access token directly using the Retell API
-      const response = await fetch('https://api.retellai.com/sdk/create-web-call', {
+      // Create the access token directly using the Retell API with correct URL
+      const response = await fetch('https://api.retell.cc/sdk/create-web-call', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
