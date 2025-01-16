@@ -21,41 +21,48 @@ const initialNodes = [
   {
     id: '1',
     type: 'input',
-    data: { label: 'Greeting\n\nHi {{first_name}}, It\'s Kelsey here from Hey Socket. Thanks for expressing your interest in our job post. Shall we go ahead and start this interview now?' },
+    data: { 
+      label: '**Greeting**\n\nHi {{first_name}}, It\'s Kelsey here from Hey Socket. Thanks for expressing your interest in our job post. Shall we go ahead and start this interview now?',
+      editable: true 
+    },
     position: { x: 100, y: 25 },
     style: { width: 300 }
   },
   {
     id: '2',
     data: { 
-      label: 'Opening Question\n\nStart by saying: So {{first_name}} can you give me a brief introduction about yourself? And how you think your experience will fit the role that we are looking for?' 
+      label: '**Opening Question**\n\nStart by saying: So {{first_name}} can you give me a brief introduction about yourself? And how you think your experience will fit the role that we are looking for?',
+      editable: true 
     },
-    position: { x: 500, y: 25 },
+    position: { x: 400, y: 25 },
     style: { width: 300 }
   },
   {
     id: '3',
     data: { 
-      label: 'Further Questions\n\nContinue to ask further questions and listen to the speaker answers.\n\nQuestion 1: Type your question..\nQuestion 2: Type your question..\nQuestion 3: Type your question..' 
+      label: '**Further Questions**\n\nContinue to ask further questions and listen to the speaker answers.\n\nQuestion 1: Type your question..\nQuestion 2: Type your question..\nQuestion 3: Type your question..',
+      editable: true 
     },
-    position: { x: 900, y: 25 },
+    position: { x: 700, y: 25 },
     style: { width: 300 }
   },
   {
     id: '4',
     data: { 
-      label: 'Explain Benefits and Perks of Role\n\nExplain to {{first_name}} conversions with the speaker to interest and explain the benefits and perks of the {{company}} and the {{job_requirement}}' 
+      label: '**Explain Benefits and Perks**\n\nExplain to {{first_name}} conversions with the speaker to interest and explain the benefits and perks of the {{company}} and the {{job_requirement}}',
+      editable: true 
     },
-    position: { x: 1300, y: 25 },
+    position: { x: 1000, y: 25 },
     style: { width: 300 }
   },
   {
     id: '5',
     type: 'output',
     data: { 
-      label: 'Farewell\n\nSay goodbye' 
+      label: '**Farewell**\n\nSay goodbye',
+      editable: true 
     },
-    position: { x: 1700, y: 25 },
+    position: { x: 1300, y: 25 },
     style: { width: 300 }
   },
 ];
@@ -84,6 +91,23 @@ export default function CreateInterview() {
 
   const onConnect = (params: any) => setEdges((eds) => addEdge(params, eds));
 
+  const onNodeDoubleClick = (event: any, node: any) => {
+    const newLabel = prompt("Edit node content:", node.data.label);
+    if (newLabel) {
+      setNodes((nds) =>
+        nds.map((n) => {
+          if (n.id === node.id) {
+            return {
+              ...n,
+              data: { ...n.data, label: newLabel },
+            };
+          }
+          return n;
+        })
+      );
+    }
+  };
+
   const onSubmit = (data: any) => {
     console.log(data);
     navigate("/send-invite");
@@ -91,7 +115,7 @@ export default function CreateInterview() {
 
   return (
     <div className="flex gap-6 h-[calc(100vh-6rem)]">
-      {/* Left Column - Workflow Builder - Now 2/3 of the space */}
+      {/* Left Column - Workflow Builder */}
       <div className="w-2/3 bg-background rounded-lg border">
         <div className="p-4 border-b">
           <h2 className="text-lg font-semibold">Conversation Flow</h2>
@@ -104,7 +128,11 @@ export default function CreateInterview() {
             onNodesChange={onNodesChange}
             onEdgesChange={onEdgesChange}
             onConnect={onConnect}
+            onNodeDoubleClick={onNodeDoubleClick}
             fitView
+            minZoom={0.1}
+            maxZoom={1.5}
+            defaultViewport={{ x: 0, y: 0, zoom: 0.8 }}
           >
             <Controls />
             <MiniMap />
@@ -113,14 +141,19 @@ export default function CreateInterview() {
         </div>
       </div>
 
-      {/* Right Column - Settings - Now 1/3 of the space */}
+      {/* Right Column - Settings */}
       <div className="w-1/3 overflow-y-auto space-y-6">
         <div className="flex justify-between items-center">
           <div>
             <h1 className="text-2xl font-bold tracking-tight">Agent Settings</h1>
             <p className="text-muted-foreground">Configure your AI interviewer</p>
           </div>
-          <Button variant="outline">Test</Button>
+          <Button 
+            variant="outline"
+            onClick={() => window.open('https://dashboard.retellai.com/agents/agent_98e7f1d1c951078b86a23f3ddb', '_blank')}
+          >
+            Test
+          </Button>
         </div>
 
         <Form {...form}>
