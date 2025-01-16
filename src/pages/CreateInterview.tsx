@@ -21,31 +21,50 @@ const initialNodes = [
   {
     id: '1',
     type: 'input',
-    data: { label: 'Start Call' },
-    position: { x: 250, y: 25 },
+    data: { label: 'Greeting\n\nHi {{first_name}}, It's Kelsey here from Hey Socket. Thanks for expressing your interest in our job post. Shall we go ahead and start this interview now?' },
+    position: { x: 100, y: 25 },
+    style: { width: 300 }
   },
   {
     id: '2',
-    data: { label: 'Introduction' },
-    position: { x: 250, y: 125 },
+    data: { 
+      label: 'Opening Question\n\nStart by saying: So {{first_name}} can you give me a brief introduction about yourself? And how you think your experience will fit the role that we are looking for?' 
+    },
+    position: { x: 500, y: 25 },
+    style: { width: 300 }
   },
   {
     id: '3',
-    data: { label: 'Ask Questions' },
-    position: { x: 250, y: 225 },
+    data: { 
+      label: 'Further Questions\n\nContinue to ask further questions and listen to the speaker answers.\n\nQuestion 1: Type your question..\nQuestion 2: Type your question..\nQuestion 3: Type your question..' 
+    },
+    position: { x: 900, y: 25 },
+    style: { width: 300 }
   },
   {
     id: '4',
+    data: { 
+      label: 'Explain Benefits and Perks of Role\n\nExplain to {{first_name}} conversions with the speaker to interest and explain the benefits and perks of the {{company}} and the {{job_requirement}}' 
+    },
+    position: { x: 1300, y: 25 },
+    style: { width: 300 }
+  },
+  {
+    id: '5',
     type: 'output',
-    data: { label: 'End Call' },
-    position: { x: 250, y: 325 },
+    data: { 
+      label: 'Farewell\n\nSay goodbye' 
+    },
+    position: { x: 1700, y: 25 },
+    style: { width: 300 }
   },
 ];
 
 const initialEdges = [
-  { id: 'e1-2', source: '1', target: '2' },
-  { id: 'e2-3', source: '2', target: '3' },
-  { id: 'e3-4', source: '3', target: '4' },
+  { id: 'e1-2', source: '1', target: '2', animated: true },
+  { id: 'e2-3', source: '2', target: '3', animated: true },
+  { id: 'e3-4', source: '3', target: '4', animated: true },
+  { id: 'e4-5', source: '4', target: '5', animated: true },
 ];
 
 export default function CreateInterview() {
@@ -72,8 +91,8 @@ export default function CreateInterview() {
 
   return (
     <div className="flex gap-6 h-[calc(100vh-6rem)]">
-      {/* Left Column - Workflow Builder */}
-      <div className="w-1/2 bg-background rounded-lg border">
+      {/* Left Column - Workflow Builder - Now 2/3 of the space */}
+      <div className="w-2/3 bg-background rounded-lg border">
         <div className="p-4 border-b">
           <h2 className="text-lg font-semibold">Conversation Flow</h2>
           <p className="text-sm text-muted-foreground">Design your agent's conversation flow</p>
@@ -94,16 +113,12 @@ export default function CreateInterview() {
         </div>
       </div>
 
-      {/* Right Column - Settings */}
-      <div className="w-1/2 overflow-y-auto space-y-6">
+      {/* Right Column - Settings - Now 1/3 of the space */}
+      <div className="w-1/3 overflow-y-auto space-y-6">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-2xl font-bold tracking-tight">
-              Agent Settings
-            </h1>
-            <p className="text-muted-foreground">
-              Configure your AI interviewer settings and behavior
-            </p>
+            <h1 className="text-2xl font-bold tracking-tight">Agent Settings</h1>
+            <p className="text-muted-foreground">Configure your AI interviewer</p>
           </div>
           <Button variant="outline">Test</Button>
         </div>
