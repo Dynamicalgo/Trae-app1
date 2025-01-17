@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import {
   Table,
@@ -68,6 +69,7 @@ const getStatusBadge = (status: CandidateStatus) => {
 
 export default function SendInvite() {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [candidates, setCandidates] = useState<Candidate[]>(shortlistedCandidates);
 
   const handleSendInvite = (candidateId: number) => {
@@ -159,6 +161,15 @@ export default function SendInvite() {
           </TableBody>
         </Table>
       </Card>
+
+      <div className="flex justify-end">
+        <Button
+          onClick={() => navigate("/interview-result")}
+          className="space-x-2"
+        >
+          See Interview Result
+        </Button>
+      </div>
     </div>
   );
 }
