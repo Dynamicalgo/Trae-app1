@@ -70,7 +70,7 @@ const initialNodes = [
 ];
 
 const initialEdges = [
-  { id: 'e1-2', source: '1', target: '2', animated: true },
+  { id: ', target: '2', animated: true },
   { id: 'e2-3', source: '2', target: '3', animated: true },
   { id: 'e3-4', source: '3', target: '4', animated: true },
   { id: 'e4-5', source: '4', target: '5', animated: true },
@@ -109,13 +109,13 @@ export function ConversationFlow() {
         </div>
         <Button 
           variant="default"
-          className="bg-primary"
+          className="bg-blue-500 hover:bg-blue-600"
           onClick={() => window.open('https://dashboard.retellai.com/agents/agent_98e7f1d1c951078b86a23f3ddb', '_blank')}
         >
           Test
         </Button>
       </div>
-      <div style={{ height: 'calc(100% - 85px)' }}>
+      <div style={{ height: 'calc(100vh - 200px)' }}>
         <ReactFlow
           nodes={nodes}
           edges={edges}
@@ -126,7 +126,7 @@ export function ConversationFlow() {
           fitView
           minZoom={0.1}
           maxZoom={1.5}
-          defaultViewport={{ x: 0, y: 0, zoom: 0.5 }}
+          defaultViewport={{ x: 0, y: 0, zoom: 0.35 }}
         >
           <Controls />
           <MiniMap />
