@@ -27,21 +27,15 @@ export default function CreateInterview() {
 
   return (
     <div className="flex gap-6 h-[calc(100vh-4rem)] -mx-8">
-      <ConversationFlow />
+      <div className="w-2/3">
+        <ConversationFlow />
+      </div>
 
       {/* Right Column - Settings */}
       <div className="w-1/3 overflow-y-auto space-y-6">
-        <div className="flex justify-between items-center">
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight">Agent Settings</h1>
-            <p className="text-muted-foreground">Configure your AI interviewer</p>
-          </div>
-          <Button 
-            variant="outline"
-            onClick={() => window.open('https://dashboard.retellai.com/agents/agent_98e7f1d1c951078b86a23f3ddb', '_blank')}
-          >
-            Test
-          </Button>
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight">Agent Settings</h1>
+          <p className="text-muted-foreground">Configure your AI interviewer</p>
         </div>
 
         <Form {...form}>
