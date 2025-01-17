@@ -1,7 +1,5 @@
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 import {
   Table,
   TableBody,
@@ -11,16 +9,21 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { User } from "lucide-react";
 
 type CandidateStatus = "not_booked" | "booked" | "canceled";
 
 interface Candidate {
   id: number;
   name: string;
+  profilePhoto: string;
   email: string;
   phone: string;
   status: CandidateStatus;
   invitationSent: boolean;
+  interviewDateTime?: string;
 }
 
 // Using the same mock data structure from the shortlisted candidates
@@ -28,18 +31,22 @@ const shortlistedCandidates: Candidate[] = [
   {
     id: 1,
     name: "John Smith",
+    profilePhoto: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
     email: "john.smith@example.com",
     phone: "+1 234 567 8900",
     status: "not_booked",
     invitationSent: false,
+    interviewDateTime: null,
   },
   {
     id: 2,
     name: "Sarah Johnson",
+    profilePhoto: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952",
     email: "sarah.j@example.com",
     phone: "+1 234 567 8901",
     status: "booked",
     invitationSent: true,
+    interviewDateTime: "2024-04-15T14:30:00",
   },
 ];
 
@@ -66,14 +73,17 @@ export default function SendInvite() {
     setCandidates(prev =>
       prev.map(candidate =>
         candidate.id === candidateId
-          ? { ...candidate, invitationSent: true }
+          ? { ...candidate, invitationSent: !candidate.invitationSent }
           : candidate
       )
     );
 
+    const candidate = candidates.find(c => c.id === candidateId);
+    const action = candidate?.invitationSent ? "cancelled" : "sent";
+    
     toast({
-      title: "Invitation Sent",
-      description: "The interview invitation has been sent successfully.",
+      title: `Invitation ${action}`,
+      description: `The interview invitation has been ${action} ${action === 'sent' ? 'to' : 'for'} ${candidate?.name}.`,
     });
   };
 
@@ -92,17 +102,26 @@ export default function SendInvite() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Name</TableHead>
+              <TableHead>Candidate</TableHead>
               <TableHead>Contact Information</TableHead>
               <TableHead>Status</TableHead>
+              <TableHead>Interview Schedule</TableHead>
               <TableHead className="text-right">Action</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {candidates.map((candidate) => (
               <TableRow key={candidate.id}>
-                <TableCell className="font-medium">
-                  {candidate.name}
+                <TableCell>
+                  <div className="flex items-center space-x-3">
+                    <Avatar>
+                      <AvatarImage src={candidate.profilePhoto} alt={candidate.name} />
+                      <AvatarFallback>
+                        <User className="h-4 w-4" />
+                      </AvatarFallback>
+                    </Avatar>
+                    <span className="font-medium">{candidate.name}</span>
+                  </div>
                 </TableCell>
                 <TableCell>
                   <div className="space-y-1">
@@ -115,10 +134,20 @@ export default function SendInvite() {
                 <TableCell>
                   {getStatusBadge(candidate.status)}
                 </TableCell>
+                <TableCell>
+                  {candidate.interviewDateTime ? (
+                    <span className="text-sm">
+                      {new Date(candidate.interviewDateTime).toLocaleString()}
+                    </span>
+                  ) : (
+                    <span className="text-sm text-muted-foreground">
+                      Not scheduled
+                    </span>
+                  )}
+                </TableCell>
                 <TableCell className="text-right">
                   <Button
                     onClick={() => handleSendInvite(candidate.id)}
-                    disabled={candidate.invitationSent}
                     variant={candidate.invitationSent ? "secondary" : "default"}
                   >
                     {candidate.invitationSent ? "Invitation Sent" : "Send Invitation"}
