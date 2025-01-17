@@ -15,7 +15,7 @@ const initialNodes = [
     id: '1',
     type: 'input',
     data: { 
-      label: '<div class="text-lg font-bold mb-2">Conversation Trigger</div><div class="text-base">Start the conversation with the candidate</div>',
+      label: '<div class="text-lg font-semibold mb-2">Conversation Trigger</div><div class="text-base">Start the conversation with the candidate</div>',
       editable: true 
     },
     position: { x: 0, y: 25 },
@@ -24,7 +24,7 @@ const initialNodes = [
   {
     id: '2',
     data: { 
-      label: '<div class="text-lg font-bold mb-2">Greeting</div><div class="text-base">Hi {{first_name}}, It\'s Kelsey here from Hey Socket. Thanks for expressing your interest in our job post.</div>',
+      label: '<div class="text-lg font-semibold mb-2">Greeting</div><div class="text-base">Hi {{first_name}}, It\'s nice to meet you. Thanks for your interest in our position.</div>',
       editable: true 
     },
     position: { x: 350, y: 25 },
@@ -33,7 +33,7 @@ const initialNodes = [
   {
     id: '3',
     data: { 
-      label: '<div class="text-lg font-bold mb-2">Opening Question</div><div class="text-base">So {{first_name}} can you give me a brief introduction about yourself?</div>',
+      label: '<div class="text-lg font-semibold mb-2">Opening Question</div><div class="text-base">Could you tell me a bit about yourself and your background?</div>',
       editable: true 
     },
     position: { x: 700, y: 25 },
@@ -42,7 +42,7 @@ const initialNodes = [
   {
     id: '4',
     data: { 
-      label: '<div class="text-lg font-bold mb-2">Further Questions</div><div class="text-base">Continue to ask further questions and listen to the speaker answers.</div>',
+      label: '<div class="text-lg font-semibold mb-2">Further Questions</div><div class="text-base">Ask relevant questions about experience and qualifications</div>',
       editable: true 
     },
     position: { x: 1050, y: 25 },
@@ -51,7 +51,7 @@ const initialNodes = [
   {
     id: '5',
     data: { 
-      label: '<div class="text-lg font-bold mb-2">Explain Benefits</div><div class="text-base">Explain to {{first_name}} the benefits and perks of {{company}} and the {{job_requirement}}</div>',
+      label: '<div class="text-lg font-semibold mb-2">Explain Benefits</div><div class="text-base">Share information about company culture, benefits, and growth opportunities</div>',
       editable: true 
     },
     position: { x: 1400, y: 25 },
@@ -61,7 +61,7 @@ const initialNodes = [
     id: '6',
     type: 'output',
     data: { 
-      label: '<div class="text-lg font-bold mb-2">End Conversation</div><div class="text-base">Thank the candidate and end the conversation</div>',
+      label: '<div class="text-lg font-semibold mb-2">End Conversation</div><div class="text-base">Thank you for your time. We\'ll be in touch about next steps.</div>',
       editable: true 
     },
     position: { x: 1750, y: 25 },
