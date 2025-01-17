@@ -10,7 +10,7 @@ import {
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { User, Video, FileText, FilePdf, Star } from "lucide-react";
+import { User, Video, FileText, Star } from "lucide-react";
 
 // Mock data for interview results
 const interviewResults = [
@@ -90,7 +90,7 @@ export default function InterviewResult() {
                 </TableCell>
                 <TableCell>
                   <Button variant="outline" size="sm" className="space-x-2">
-                    <FilePdf className="h-4 w-4" />
+                    <FileText className="h-4 w-4" />
                     <span>View Review</span>
                   </Button>
                 </TableCell>
