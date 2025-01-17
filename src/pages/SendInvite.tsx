@@ -1,62 +1,124 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { useForm } from "react-hook-form";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
+import { useState } from "react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+
+// Using the same mock data structure from the shortlisted candidates
+const shortlistedCandidates = [
+  {
+    id: 1,
+    name: "John Smith",
+    email: "john.smith@example.com",
+    phone: "+1 234 567 8900",
+    status: "not_booked",
+    invitationSent: false,
+  },
+  {
+    id: 2,
+    name: "Sarah Johnson",
+    email: "sarah.j@example.com",
+    phone: "+1 234 567 8901",
+    status: "booked",
+    invitationSent: true,
+  },
+];
+
+type CandidateStatus = "not_booked" | "booked" | "canceled";
+
+const getStatusBadge = (status: CandidateStatus) => {
+  const statusConfig = {
+    not_booked: { label: "Not Booked", className: "bg-yellow-500" },
+    booked: { label: "Booked", className: "bg-green-500" },
+    canceled: { label: "Canceled", className: "bg-red-500" },
+  };
+
+  const config = statusConfig[status];
+  return (
+    <Badge className={config.className}>
+      {config.label}
+    </Badge>
+  );
+};
 
 export default function SendInvite() {
   const { toast } = useToast();
-  const form = useForm({
-    defaultValues: {
-      email: "",
-    },
-  });
+  const [candidates, setCandidates] = useState(shortlistedCandidates);
 
-  const onSubmit = (data: { email: string }) => {
-    console.log("Sending invite to:", data.email);
+  const handleSendInvite = (candidateId: number) => {
+    setCandidates(prev =>
+      prev.map(candidate =>
+        candidate.id === candidateId
+          ? { ...candidate, invitationSent: true }
+          : candidate
+      )
+    );
+
     toast({
-      title: "Invite Sent",
-      description: `An invitation has been sent to ${data.email}`,
+      title: "Invitation Sent",
+      description: "The interview invitation has been sent successfully.",
     });
-    form.reset();
   };
 
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold tracking-tight">
-          Send Interview Invitation
+          Send Interview Invitations
         </h1>
         <p className="text-muted-foreground">
-          Invite candidates to participate in the AI interview session
+          Manage and send interview invitations to shortlisted candidates
         </p>
       </div>
 
-      <Card className="p-6">
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Candidate Email</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="email"
-                      placeholder="Enter candidate's email address..."
-                      {...field}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            <Button type="submit">
-              Send Invitation
-            </Button>
-          </form>
-        </Form>
+      <Card>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Name</TableHead>
+              <TableHead>Contact Information</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead className="text-right">Action</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {candidates.map((candidate) => (
+              <TableRow key={candidate.id}>
+                <TableCell className="font-medium">
+                  {candidate.name}
+                </TableCell>
+                <TableCell>
+                  <div className="space-y-1">
+                    <div className="text-sm">{candidate.email}</div>
+                    <div className="text-sm text-muted-foreground">
+                      {candidate.phone}
+                    </div>
+                  </div>
+                </TableCell>
+                <TableCell>
+                  {getStatusBadge(candidate.status)}
+                </TableCell>
+                <TableCell className="text-right">
+                  <Button
+                    onClick={() => handleSendInvite(candidate.id)}
+                    disabled={candidate.invitationSent}
+                    variant={candidate.invitationSent ? "secondary" : "default"}
+                  >
+                    {candidate.invitationSent ? "Invitation Sent" : "Send Invitation"}
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
       </Card>
     </div>
   );
