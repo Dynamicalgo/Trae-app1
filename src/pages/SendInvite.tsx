@@ -12,8 +12,19 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 
+type CandidateStatus = "not_booked" | "booked" | "canceled";
+
+interface Candidate {
+  id: number;
+  name: string;
+  email: string;
+  phone: string;
+  status: CandidateStatus;
+  invitationSent: boolean;
+}
+
 // Using the same mock data structure from the shortlisted candidates
-const shortlistedCandidates = [
+const shortlistedCandidates: Candidate[] = [
   {
     id: 1,
     name: "John Smith",
@@ -32,8 +43,6 @@ const shortlistedCandidates = [
   },
 ];
 
-type CandidateStatus = "not_booked" | "booked" | "canceled";
-
 const getStatusBadge = (status: CandidateStatus) => {
   const statusConfig = {
     not_booked: { label: "Not Booked", className: "bg-yellow-500" },
@@ -51,7 +60,7 @@ const getStatusBadge = (status: CandidateStatus) => {
 
 export default function SendInvite() {
   const { toast } = useToast();
-  const [candidates, setCandidates] = useState(shortlistedCandidates);
+  const [candidates, setCandidates] = useState<Candidate[]>(shortlistedCandidates);
 
   const handleSendInvite = (candidateId: number) => {
     setCandidates(prev =>
