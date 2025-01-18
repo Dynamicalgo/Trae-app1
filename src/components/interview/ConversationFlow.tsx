@@ -1,138 +1,87 @@
-import {
-  ReactFlow,
-  MiniMap,
-  Controls,
-  Background,
-  useNodesState,
-  useEdgesState,
-  addEdge,
-} from '@xyflow/react';
-import '@xyflow/react/dist/style.css';
-import { Button } from "@/components/ui/button";
-
-const initialNodes = [
-  {
-    id: '1',
-    type: 'input',
-    data: { 
-      label: '<div class="text-lg font-semibold mb-2">Conversation Trigger</div><div class="text-base">Start the conversation with the candidate</div>',
-      editable: true 
-    },
-    position: { x: 0, y: 25 },
-    style: { width: 300 }
-  },
-  {
-    id: '2',
-    data: { 
-      label: '<div class="text-lg font-semibold mb-2">Greeting</div><div class="text-base">Hi {{first_name}}, It\'s nice to meet you. Thanks for your interest in our position.</div>',
-      editable: true 
-    },
-    position: { x: 350, y: 25 },
-    style: { width: 300 }
-  },
-  {
-    id: '3',
-    data: { 
-      label: '<div class="text-lg font-semibold mb-2">Opening Question</div><div class="text-base">Could you tell me a bit about yourself and your background?</div>',
-      editable: true 
-    },
-    position: { x: 700, y: 25 },
-    style: { width: 300 }
-  },
-  {
-    id: '4',
-    data: { 
-      label: '<div class="text-lg font-semibold mb-2">Further Questions</div><div class="text-base">Ask relevant questions about experience and qualifications</div>',
-      editable: true 
-    },
-    position: { x: 1050, y: 25 },
-    style: { width: 300 }
-  },
-  {
-    id: '5',
-    data: { 
-      label: '<div class="text-lg font-semibold mb-2">Explain Benefits</div><div class="text-base">Share information about company culture, benefits, and growth opportunities</div>',
-      editable: true 
-    },
-    position: { x: 1400, y: 25 },
-    style: { width: 300 }
-  },
-  {
-    id: '6',
-    type: 'output',
-    data: { 
-      label: '<div class="text-lg font-semibold mb-2">End Conversation</div><div class="text-base">Thank you for your time. We\'ll be in touch about next steps.</div>',
-      editable: true 
-    },
-    position: { x: 1750, y: 25 },
-    style: { width: 300 }
-  },
-];
-
-const initialEdges = [
-  { id: 'e1-2', source: '1', target: '2', animated: true },
-  { id: 'e2-3', source: '2', target: '3', animated: true },
-  { id: 'e3-4', source: '3', target: '4', animated: true },
-  { id: 'e4-5', source: '4', target: '5', animated: true },
-  { id: 'e5-6', source: '5', target: '6', animated: true },
-];
+import { Card } from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
 
 export function ConversationFlow() {
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
-
-  const onConnect = (params: any) => setEdges((eds) => addEdge(params, eds));
-
-  const onNodeDoubleClick = (event: any, node: any) => {
-    const newLabel = prompt("Edit node content:", node.data.label);
-    if (newLabel) {
-      setNodes((nds) =>
-        nds.map((n) => {
-          if (n.id === node.id) {
-            return {
-              ...n,
-              data: { ...n.data, label: newLabel },
-            };
-          }
-          return n;
-        })
-      );
-    }
-  };
-
   return (
-    <div className="w-full bg-background rounded-lg border relative">
-      <div className="p-4 border-b flex justify-between items-center">
-        <div>
-          <h2 className="text-lg font-semibold">Conversation Flow</h2>
-          <p className="text-sm text-muted-foreground">Design your agent's conversation flow</p>
+    <Card className="p-6 space-y-8">
+      <div>
+        <h2 className="text-lg font-semibold mb-6">Conversation Flow</h2>
+        <p className="text-sm text-muted-foreground mb-8">Design your agent's conversation structure</p>
+      </div>
+
+      {/* 1. Conversation Starter */}
+      <div className="space-y-4">
+        <Label className="text-base font-semibold">1. Conversation Starter</Label>
+        <Textarea 
+          placeholder="Enter your conversation starter content..."
+          className="min-h-[100px]"
+        />
+        <div className="bg-slate-100 p-3 rounded-md text-sm">Wait for feedback</div>
+      </div>
+
+      {/* 2. Opening Questions */}
+      <div className="space-y-4">
+        <Label className="text-base font-semibold">2. Opening Questions</Label>
+        <Textarea 
+          placeholder="Enter your opening questions..."
+          className="min-h-[100px]"
+        />
+        <div className="bg-slate-100 p-3 rounded-md text-sm">Wait for feedback</div>
+      </div>
+
+      {/* 3. Further Questions */}
+      <div className="space-y-4">
+        <Label className="text-base font-semibold">3. Further Questions</Label>
+        <Textarea 
+          placeholder="Enter the description for further questions..."
+          className="min-h-[100px]"
+        />
+        <div className="space-y-4 mt-4">
+          <Input placeholder="Question 1" />
+          <Input placeholder="Question 2" />
+          <Input placeholder="Question 3" />
         </div>
-        <Button 
-          variant="default"
-          className="bg-blue-500 hover:bg-blue-600"
-          onClick={() => window.open('https://dashboard.retellai.com/agents/agent_98e7f1d1c951078b86a23f3ddb', '_blank')}
-        >
-          Test
-        </Button>
+        <div className="bg-slate-100 p-3 rounded-md text-sm">Wait for feedback</div>
       </div>
-      <div style={{ height: 'calc(100vh - 200px)' }}>
-        <ReactFlow
-          nodes={nodes}
-          edges={edges}
-          onNodesChange={onNodesChange}
-          onEdgesChange={onEdgesChange}
-          onConnect={onConnect}
-          onNodeDoubleClick={onNodeDoubleClick}
-          fitView
-          minZoom={0.1}
-          maxZoom={1.5}
-          defaultViewport={{ x: 0, y: 0, zoom: 0.35 }}
-        >
-          <Controls />
-          <MiniMap />
-          <Background />
-        </ReactFlow>
+
+      {/* 4. Q and A */}
+      <div className="space-y-4">
+        <Label className="text-base font-semibold">4. Q and A</Label>
+        <Select>
+          <SelectTrigger>
+            <SelectValue placeholder="Select knowledge base" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="kb1">Knowledge Base 1</SelectItem>
+            <SelectItem value="kb2">Knowledge Base 2</SelectItem>
+            <SelectItem value="kb3">Knowledge Base 3</SelectItem>
+          </SelectContent>
+        </Select>
+        <div className="bg-slate-100 p-3 rounded-md text-sm">Wait for feedback</div>
       </div>
-    </div>
+
+      {/* 5. Sum Up Interview */}
+      <div className="space-y-4">
+        <Label className="text-base font-semibold">5. Sum Up Interview</Label>
+        <Textarea 
+          placeholder="Enter your interview summary content..."
+          className="min-h-[100px]"
+        />
+        <div className="bg-slate-100 p-3 rounded-md text-sm">Wait for feedback</div>
+      </div>
+
+      {/* 6. Closing */}
+      <div className="space-y-4">
+        <Label className="text-base font-semibold">6. Closing</Label>
+        <Textarea 
+          placeholder="Enter your closing content..."
+          className="min-h-[100px]"
+        />
+        <div className="bg-slate-100 p-3 rounded-md text-sm">Wait for feedback</div>
+      </div>
+    </Card>
   );
 }
