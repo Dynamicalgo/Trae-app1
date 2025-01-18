@@ -3,13 +3,29 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 
 export function ConversationFlow() {
+  const { toast } = useToast();
+
+  const handleTest = () => {
+    toast({
+      title: "Test Initiated",
+      description: "Testing conversation flow...",
+    });
+  };
+
   return (
     <Card className="p-6 space-y-8">
-      <div>
-        <h2 className="text-lg font-semibold mb-6">Conversation Flow</h2>
-        <p className="text-sm text-muted-foreground mb-8">Design your agent's conversation structure</p>
+      <div className="flex justify-between items-center">
+        <div>
+          <h2 className="text-lg font-semibold mb-6">Conversation Flow</h2>
+          <p className="text-sm text-muted-foreground mb-8">Design your agent's conversation structure</p>
+        </div>
+        <Button onClick={handleTest} variant="outline">
+          Test
+        </Button>
       </div>
 
       {/* 1. Conversation Starter */}
