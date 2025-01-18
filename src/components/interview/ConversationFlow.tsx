@@ -3,19 +3,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/use-toast";
 
 export function ConversationFlow() {
-  const { toast } = useToast();
-
-  const handleTest = (section: string) => {
-    toast({
-      title: "Testing " + section,
-      description: "Test initiated for " + section + ". Please wait for feedback.",
-    });
-  };
-
   return (
     <Card className="p-6 space-y-8">
       <div>
@@ -30,10 +19,7 @@ export function ConversationFlow() {
           placeholder="Enter your conversation starter content..."
           className="min-h-[100px]"
         />
-        <div className="flex justify-between items-center">
-          <div className="bg-slate-100 p-3 rounded-md text-sm">Wait for feedback</div>
-          <Button onClick={() => handleTest("Conversation Starter")} variant="outline">Test</Button>
-        </div>
+        <div className="bg-slate-100 p-3 rounded-md text-sm">Wait for feedback</div>
       </div>
 
       {/* 2. Opening Questions */}
@@ -43,10 +29,7 @@ export function ConversationFlow() {
           placeholder="Enter your opening questions..."
           className="min-h-[100px]"
         />
-        <div className="flex justify-between items-center">
-          <div className="bg-slate-100 p-3 rounded-md text-sm">Wait for feedback</div>
-          <Button onClick={() => handleTest("Opening Questions")} variant="outline">Test</Button>
-        </div>
+        <div className="bg-slate-100 p-3 rounded-md text-sm">Wait for feedback</div>
       </div>
 
       {/* 3. Further Questions */}
@@ -61,10 +44,7 @@ export function ConversationFlow() {
           <Input placeholder="Question 2" />
           <Input placeholder="Question 3" />
         </div>
-        <div className="flex justify-between items-center">
-          <div className="bg-slate-100 p-3 rounded-md text-sm">Wait for feedback</div>
-          <Button onClick={() => handleTest("Further Questions")} variant="outline">Test</Button>
-        </div>
+        <div className="bg-slate-100 p-3 rounded-md text-sm">Wait for feedback</div>
       </div>
 
       {/* 4. Q and A */}
@@ -80,10 +60,7 @@ export function ConversationFlow() {
             <SelectItem value="kb3">Knowledge Base 3</SelectItem>
           </SelectContent>
         </Select>
-        <div className="flex justify-between items-center">
-          <div className="bg-slate-100 p-3 rounded-md text-sm">Wait for feedback</div>
-          <Button onClick={() => handleTest("Q and A")} variant="outline">Test</Button>
-        </div>
+        <div className="bg-slate-100 p-3 rounded-md text-sm">Wait for feedback</div>
       </div>
 
       {/* 5. Sum Up Interview */}
@@ -93,10 +70,7 @@ export function ConversationFlow() {
           placeholder="Enter your interview summary content..."
           className="min-h-[100px]"
         />
-        <div className="flex justify-between items-center">
-          <div className="bg-slate-100 p-3 rounded-md text-sm">Wait for feedback</div>
-          <Button onClick={() => handleTest("Sum Up Interview")} variant="outline">Test</Button>
-        </div>
+        <div className="bg-slate-100 p-3 rounded-md text-sm">Wait for feedback</div>
       </div>
 
       {/* 6. Closing */}
@@ -106,10 +80,7 @@ export function ConversationFlow() {
           placeholder="Enter your closing content..."
           className="min-h-[100px]"
         />
-        <div className="flex justify-between items-center">
-          <div className="bg-slate-100 p-3 rounded-md text-sm">Wait for feedback</div>
-          <Button onClick={() => handleTest("Closing")} variant="outline">Test</Button>
-        </div>
+        <div className="bg-slate-100 p-3 rounded-md text-sm">Wait for feedback</div>
       </div>
     </Card>
   );
