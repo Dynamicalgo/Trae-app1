@@ -28,7 +28,6 @@ interface Candidate {
   interviewDateTime?: string;
 }
 
-// Using the same mock data structure from the shortlisted candidates
 const shortlistedCandidates: Candidate[] = [
   {
     id: 1,
@@ -92,13 +91,18 @@ export default function SendInvite() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight">
-          Send Interview Invitations
-        </h1>
-        <p className="text-muted-foreground">
-          Manage and send interview invitations to shortlisted candidates
-        </p>
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight">
+            Send Interview Invitations
+          </h1>
+          <p className="text-muted-foreground">
+            Manage and send interview invitations to shortlisted candidates
+          </p>
+        </div>
+        <Button onClick={() => navigate("/interview-result")}>
+          See Interview Results
+        </Button>
       </div>
 
       <Card>
@@ -161,15 +165,6 @@ export default function SendInvite() {
           </TableBody>
         </Table>
       </Card>
-
-      <div className="flex justify-end">
-        <Button
-          onClick={() => navigate("/interview-result")}
-          className="space-x-2"
-        >
-          See Interview Result
-        </Button>
-      </div>
     </div>
   );
 }

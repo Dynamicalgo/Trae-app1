@@ -7,7 +7,8 @@ import {
   BarChart,
   Menu,
   Send,
-  Bot
+  Bot,
+  FileText
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -44,6 +45,11 @@ const navItems = [
     title: "Send Invite",
     icon: Send,
     href: "/send-invite",
+  },
+  {
+    title: "Interview Results",
+    icon: FileText,
+    href: "/interview-result",
   },
 ];
 
