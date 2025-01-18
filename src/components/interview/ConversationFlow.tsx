@@ -18,15 +18,14 @@ export function ConversationFlow() {
 
   return (
     <Card className="p-6 space-y-8">
-      <div className="flex justify-between items-center">
-        <div>
-          <h2 className="text-lg font-semibold mb-6">Conversation Flow</h2>
-          <p className="text-sm text-muted-foreground mb-8">Design your agent's conversation structure</p>
-        </div>
-        <Button onClick={handleTest} variant="outline">
+      <div className="flex justify-between items-start">
+        <h2 className="text-lg font-semibold">Conversation Flow</h2>
+        <Button onClick={handleTest}>
           Test
         </Button>
       </div>
+      
+      <p className="text-sm text-muted-foreground -mt-6 mb-8">Design your agent's conversation structure</p>
 
       {/* 1. Conversation Starter */}
       <div className="space-y-4">
