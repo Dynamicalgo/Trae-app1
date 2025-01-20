@@ -6,7 +6,7 @@ import {
   TrendingUp,
   Calendar,
   HeartPulse,
-  Video2,
+  Video as VideoIcon,
   Receipt,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -56,7 +56,7 @@ const hrStats = [
   {
     title: "Meetings Set",
     value: "24",
-    icon: Video2,
+    icon: VideoIcon,
     trend: "5 tomorrow",
   },
   {
