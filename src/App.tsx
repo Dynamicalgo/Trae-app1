@@ -8,6 +8,7 @@ import InterviewList from "./pages/InterviewList";
 import CreateInterview from "./pages/CreateInterview";
 import SendInvite from "./pages/SendInvite";
 import InterviewResult from "./pages/InterviewResult";
+import HiringList from "./pages/HiringList";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/create-interview" element={<CreateInterview />} />
           <Route path="/send-invite" element={<SendInvite />} />
           <Route path="/interview-result" element={<InterviewResult />} />
+          <Route path="/hiring-list" element={<HiringList />} />
         </Routes>
       </Layout>
     </Router>

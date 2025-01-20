@@ -3,12 +3,12 @@ import {
   Briefcase, 
   Users, 
   Clipboard,
-  PlayCircle, 
   BarChart,
   Menu,
   Send,
   Bot,
-  FileText
+  FileText,
+  UserCheck
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -50,6 +50,11 @@ const navItems = [
     title: "Interview Results",
     icon: FileText,
     href: "/interview-result",
+  },
+  {
+    title: "Hiring List",
+    icon: UserCheck,
+    href: "/hiring-list",
   },
 ];
 

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Table,
@@ -11,6 +12,7 @@ import { Card } from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { User, Video, FileText, Star } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
 
 // Mock data for interview results
 const interviewResults = [
@@ -36,6 +38,25 @@ const interviewResults = [
 
 export default function InterviewResult() {
   const navigate = useNavigate();
+  const [selectedCandidates, setSelectedCandidates] = useState<number[]>([]);
+
+  const handleSelectAll = (checked: boolean) => {
+    if (checked) {
+      setSelectedCandidates(interviewResults.map(result => result.id));
+    } else {
+      setSelectedCandidates([]);
+    }
+  };
+
+  const handleSelectCandidate = (candidateId: number) => {
+    setSelectedCandidates(prev => {
+      if (prev.includes(candidateId)) {
+        return prev.filter(id => id !== candidateId);
+      } else {
+        return [...prev, candidateId];
+      }
+    });
+  };
 
   return (
     <div className="space-y-6">
@@ -46,15 +67,33 @@ export default function InterviewResult() {
             Review candidate interview results and assessments
           </p>
         </div>
-        <Button variant="outline" onClick={() => navigate("/send-invite")}>
-          Back to Invitations
-        </Button>
+        <div className="space-x-4">
+          <Button 
+            variant="default" 
+            onClick={() => navigate("/hiring-list")}
+            disabled={selectedCandidates.length === 0}
+          >
+            Add to Hiring List
+          </Button>
+          <Button 
+            variant="secondary"
+            onClick={() => navigate("/create-interview")}
+          >
+            Create Another Interview
+          </Button>
+        </div>
       </div>
 
       <Card>
         <Table>
           <TableHeader>
             <TableRow>
+              <TableHead className="w-12">
+                <Checkbox 
+                  checked={selectedCandidates.length === interviewResults.length}
+                  onCheckedChange={handleSelectAll}
+                />
+              </TableHead>
               <TableHead>Candidate</TableHead>
               <TableHead>Interview Recording</TableHead>
               <TableHead>Interview Transcript</TableHead>
@@ -65,6 +104,12 @@ export default function InterviewResult() {
           <TableBody>
             {interviewResults.map((result) => (
               <TableRow key={result.id}>
+                <TableCell>
+                  <Checkbox 
+                    checked={selectedCandidates.includes(result.id)}
+                    onCheckedChange={() => handleSelectCandidate(result.id)}
+                  />
+                </TableCell>
                 <TableCell>
                   <div className="flex items-center space-x-3">
                     <Avatar>
