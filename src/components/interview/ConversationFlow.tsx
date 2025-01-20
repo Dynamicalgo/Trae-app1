@@ -17,16 +17,36 @@ export function ConversationFlow() {
     window.open('https://dashboard.retellai.com/agents/agent_98e7f1d1c951078b86a23f3ddb', '_blank');
   };
 
+  const handleDeploy = () => {
+    toast({
+      title: "Deployment Started",
+      description: "Deploying your conversation flow...",
+    });
+  };
+
   return (
     <Card className="p-6 space-y-8">
       <div className="flex justify-between items-start">
         <h2 className="text-lg font-semibold">Conversation Flow</h2>
-        <Button onClick={handleTest}>
-          Test
-        </Button>
+        <div className="flex gap-2">
+          <Button onClick={handleTest}>
+            Test
+          </Button>
+          <Button onClick={handleDeploy}>
+            Deploy
+          </Button>
+        </div>
       </div>
       
       <p className="text-sm text-muted-foreground -mt-6 mb-8">Design your agent's conversation structure</p>
+
+      {/* Interview Title */}
+      <div className="space-y-4">
+        <Label className="text-base font-semibold">Interview Title</Label>
+        <Input 
+          placeholder="Enter interview title..."
+        />
+      </div>
 
       {/* 1. Conversation Starter */}
       <div className="space-y-4">
