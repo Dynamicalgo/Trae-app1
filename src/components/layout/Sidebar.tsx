@@ -8,7 +8,8 @@ import {
   Send,
   Bot,
   FileText,
-  UserCheck
+  UserCheck,
+  Video
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -40,6 +41,11 @@ const navItems = [
     title: "Create A.I Interview",
     icon: Bot,
     href: "/create-interview",
+  },
+  {
+    title: "Interview Session",
+    icon: Video,
+    href: "/interview-session",
   },
   {
     title: "Send Invite",

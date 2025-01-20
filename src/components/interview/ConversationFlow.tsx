@@ -5,9 +5,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 export function ConversationFlow() {
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const handleTest = () => {
     toast({
@@ -18,10 +20,7 @@ export function ConversationFlow() {
   };
 
   const handleDeploy = () => {
-    toast({
-      title: "Deployment Started",
-      description: "Deploying your conversation flow...",
-    });
+    navigate("/interview-session");
   };
 
   return (
