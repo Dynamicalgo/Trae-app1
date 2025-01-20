@@ -14,6 +14,7 @@ export function ConversationFlow() {
       title: "Test Initiated",
       description: "Testing conversation flow...",
     });
+    window.open('https://dashboard.retellai.com/agents/agent_98e7f1d1c951078b86a23f3ddb', '_blank');
   };
 
   return (
