@@ -45,33 +45,40 @@ export default function HRChatbot() {
     setIsLoading(true);
 
     try {
-      await fetch(WEBHOOK_URL, {
+      const response = await fetch(WEBHOOK_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        mode: "no-cors",
         body: JSON.stringify({
           message: userMessage,
           timestamp: new Date().toISOString(),
         }),
       });
 
-      // Since we're using no-cors, we'll show a loading state briefly
-      setTimeout(() => {
-        setMessages(prev => [
-          ...prev,
-          {
-            id: prev.length + 1,
-            content: "I've received your message and am processing it. You'll see the response in your Make.com scenario.",
-            sender: "assistant"
-          }
-        ]);
-        setIsLoading(false);
-      }, 1000);
-
+      const data = await response.text();
+      
+      // Add assistant's response to chat
+      setMessages(prev => [
+        ...prev,
+        {
+          id: prev.length + 1,
+          content: data || "I apologize, but I couldn't process your request at the moment.",
+          sender: "assistant"
+        }
+      ]);
+      
     } catch (error) {
       console.error("Error sending message:", error);
+      setMessages(prev => [
+        ...prev,
+        {
+          id: prev.length + 1,
+          content: "I apologize, but I encountered an error while processing your request.",
+          sender: "assistant"
+        }
+      ]);
+    } finally {
       setIsLoading(false);
     }
   };
