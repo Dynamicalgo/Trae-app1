@@ -26,7 +26,7 @@ export default function HRChatbot() {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const WEBHOOK_URL = "https://hook.eu2.make.com/7puojsf4783krbd3ni4y92a1diw37nj7";
+  const WEBHOOK_URL = "https://hook.eu2.make.com/gvh8znhnwpmcieys22tqlvk82d3l8ofw";
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -90,7 +90,7 @@ export default function HRChatbot() {
                 src={
                   message.sender === "user"
                     ? "/placeholder.svg"
-                    : "/lovable-uploads/35cee2f9-1f94-4626-930c-cbfed4a21b40.png"
+                    : "/lovable-uploads/6e1f08e3-4efd-43a0-bf28-617923e30033.png"
                 }
                 fallback={message.sender === "user" ? "U" : "AI"}
               />
@@ -106,7 +106,7 @@ export default function HRChatbot() {
             <ChatBubble variant="received">
               <ChatBubbleAvatar
                 className="h-8 w-8 shrink-0"
-                src="/lovable-uploads/35cee2f9-1f94-4626-930c-cbfed4a21b40.png"
+                src="/lovable-uploads/6e1f08e3-4efd-43a0-bf28-617923e30033.png"
                 fallback="AI"
               />
               <ChatBubbleMessage isLoading />
