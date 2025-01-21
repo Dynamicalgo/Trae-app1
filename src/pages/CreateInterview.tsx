@@ -1,7 +1,5 @@
-import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import { VoiceLanguageSettings } from "@/components/interview/VoiceLanguageSettings";
 import { GlobalPromptSettings } from "@/components/interview/GlobalPromptSettings";
 import { KnowledgeBaseSettings } from "@/components/interview/KnowledgeBaseSettings";
@@ -9,7 +7,6 @@ import { AdditionalSettings } from "@/components/interview/AdditionalSettings";
 import { ConversationFlow } from "@/components/interview/ConversationFlow";
 
 export default function CreateInterview() {
-  const navigate = useNavigate();
   const form = useForm({
     defaultValues: {
       globalPrompt: "",
@@ -19,11 +16,6 @@ export default function CreateInterview() {
       knowledgeBase: null as File | null,
     },
   });
-
-  const onSubmit = (data: any) => {
-    console.log(data);
-    navigate("/send-invite");
-  };
 
   return (
     <div className="flex gap-6 h-[calc(100vh-4rem)] -mx-8">
@@ -39,17 +31,11 @@ export default function CreateInterview() {
         </div>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <form className="space-y-6">
             <VoiceLanguageSettings form={form} />
             <GlobalPromptSettings form={form} />
             <KnowledgeBaseSettings form={form} />
             <AdditionalSettings />
-
-            <div className="flex justify-end">
-              <Button type="submit" size="lg">
-                Deploy Agent
-              </Button>
-            </div>
           </form>
         </Form>
       </div>
