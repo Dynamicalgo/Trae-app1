@@ -1,4 +1,4 @@
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, KeyboardEvent } from "react";
 import { Paperclip, Mic, CornerDownLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -35,7 +35,6 @@ export default function HRChatbot() {
     const userMessage = input;
     setInput("");
     
-    // Add user message to chat
     setMessages(prev => [...prev, {
       id: prev.length + 1,
       content: userMessage,
@@ -58,7 +57,6 @@ export default function HRChatbot() {
 
       const data = await response.text();
       
-      // Add assistant's response to chat
       setMessages(prev => [
         ...prev,
         {
@@ -80,6 +78,13 @@ export default function HRChatbot() {
       ]);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleKeyPress = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSubmit(e);
     }
   };
 
@@ -130,6 +135,7 @@ export default function HRChatbot() {
           <ChatInput
             value={input}
             onChange={(e) => setInput(e.target.value)}
+            onKeyDown={handleKeyPress}
             placeholder="Type your message..."
             className="min-h-12 resize-none rounded-lg bg-background border-0 p-3 shadow-none focus-visible:ring-0"
           />
