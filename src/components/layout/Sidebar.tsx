@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { 
   Briefcase, 
   Users, 
@@ -9,12 +9,17 @@ import {
   Bot,
   FileText,
   UserCheck,
-  Video
+  Video,
+  Wrench
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { Settings } from "lucide-react";
+
+// Remove this duplicate import:
+// import { Briefcase, Users, Clipboard, BarChart, Menu, Send, Bot, FileText, UserCheck, Video, Building } from "lucide-react";
 
 const navItems = [
   {
@@ -23,7 +28,7 @@ const navItems = [
     href: "/",
   },
   {
-    title: "Jobs",
+    title: "Job Post",
     icon: Briefcase,
     href: "/jobs",
   },
@@ -62,56 +67,61 @@ const navItems = [
     icon: UserCheck,
     href: "/hiring-list",
   },
+  {
+    title: "Human Resource",
+    icon: Wrench,
+    href: "/human-resource",
+  },
 ];
 
 export function Sidebar() {
   const location = useLocation();
-  const isMobile = useIsMobile();
-  const [isOpen, setIsOpen] = useState(!isMobile);
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <>
-      {isMobile && (
-        <Button
-          variant="ghost"
-          size="icon"
-          className="fixed top-4 left-4 z-50"
+    <div className="fixed inset-y-0 left-0 w-64 border-r bg-background">
+      <div className="flex h-16 items-center px-6">
+        <img 
+          src="/lovable-uploads/35cee2f9-1f94-4626-930c-cbfed4a21b40.png" 
+          alt="Hey Rocket Logo" 
+          className="h-8"
+        />
+      </div>
+      <nav className="space-y-1 px-2 pt-10">
+        {navItems.map((item) => (
+          <Link
+            key={item.title}
+            to={item.href}
+            className={cn(
+              "flex items-center px-4 py-2 text-base rounded-md transition-colors font-semibold",
+              location.pathname === item.href
+                ? "bg-primary/10 text-blue-600"
+                : "text-neutral-600 hover:bg-accent"
+            )}
+          >
+            <item.icon className={cn(
+              "h-5 w-5 mr-3",
+              location.pathname === item.href
+                ? "text-blue-600"
+                : "text-neutral-600"
+            )} />
+            {item.title}
+          </Link>
+        ))}
+      </nav>
+
+      <div className="absolute bottom-0 w-full p-4 border-t">
+        <button 
+          className="flex items-center space-x-2 w-full px-4 py-2 text-base text-neutral-600 font-semibold hover:bg-accent rounded-md transition-colors mb-2"
           onClick={() => setIsOpen(!isOpen)}
         >
-          <Menu className="h-6 w-6" />
-        </Button>
-      )}
-      <div
-        className={cn(
-          "fixed left-0 top-0 z-40 h-full w-64 bg-white border-r transition-transform duration-200 ease-in-out",
-          !isOpen && "-translate-x-full"
-        )}
-      >
-        <div className="flex h-16 items-center border-b px-6">
-          <img 
-            src="/lovable-uploads/35cee2f9-1f94-4626-930c-cbfed4a21b40.png" 
-            alt="Hey Rocket Logo" 
-            className="h-8"
-          />
+          <Settings className="h-5 w-5 text-neutral-600" />
+          <span>Settings</span>
+        </button>
+        <div className="text-neutral-600 text-sm font-medium px-4">
+          1000 credits left
         </div>
-        <nav className="space-y-1 p-4">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              to={item.href}
-              className={cn(
-                "flex items-center space-x-3 rounded-lg px-3 py-2 text-sm font-medium",
-                location.pathname === item.href
-                  ? "bg-primary text-primary-foreground"
-                  : "text-gray-700 hover:bg-gray-100"
-              )}
-            >
-              <item.icon className="h-5 w-5" />
-              <span>{item.title}</span>
-            </Link>
-          ))}
-        </nav>
       </div>
-    </>
+    </div>
   );
 }

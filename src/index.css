@@ -31,30 +31,30 @@
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-neutral-200;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-white text-slate-900;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
 
 .react-flow__node {
-  @apply px-4 py-2 rounded-md border bg-background shadow-sm;
+  @apply px-4 py-2 rounded-md border bg-white shadow-sm;
 }
 
 .react-flow__node-input {
-  @apply bg-primary text-primary-foreground;
+  @apply bg-blue-600 text-white;
 }
 
 .react-flow__node-output {
-  @apply bg-secondary;
+  @apply bg-gray-100;
 }
 
 .react-flow__controls {
-  @apply rounded-lg border bg-background shadow-sm;
+  @apply rounded-lg border bg-white shadow-sm;
 }
 
 .react-flow__minimap {
-  @apply rounded-lg border bg-background shadow-sm;
+  @apply rounded-lg border bg-white shadow-sm;
 }

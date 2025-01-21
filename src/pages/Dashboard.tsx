@@ -4,13 +4,13 @@ import {
   Users, 
   Video,
   TrendingUp,
-  Calendar,
+  Clock,
   HeartPulse,
-  Video as VideoIcon,
+  UserPlus,
   Receipt,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import HRChatbot from "@/components/HRChatbot";
+import HRChatbot from "@/components/HRChatbot";  // Updated import path
 
 const recruitmentStats = [
   {
@@ -42,10 +42,11 @@ const recruitmentStats = [
 
 const hrStats = [
   {
-    title: "Leave Taken",
-    value: "45",
-    icon: Calendar,
-    trend: "12 pending approvals",
+    title: "Payroll",
+    value: "$148K",
+    icon: UserPlus,
+    href: "/human-resource/payroll",
+    trend: "Next payday in 5 days",
   },
   {
     title: "Medical Leave",
@@ -54,10 +55,10 @@ const hrStats = [
     trend: "3 this week",
   },
   {
-    title: "Meetings Set",
-    value: "24",
-    icon: VideoIcon,
-    trend: "5 tomorrow",
+    title: "Leave Taken",
+    value: "45",
+    icon: Clock,
+    trend: "12 pending approvals",
   },
   {
     title: "Claims & Reimbursement",
@@ -86,7 +87,7 @@ export default function Dashboard() {
             {recruitmentStats.map((stat) => (
               <Card 
                 key={stat.title} 
-                className={`p-6 ${stat.href ? 'cursor-pointer hover:bg-gray-50 transition-colors' : ''}`}
+                className={`p-6 transition-transform hover:scale-105 cursor-pointer hover:bg-gray-50`}
                 onClick={() => stat.href && navigate(stat.href)}
               >
                 <div className="flex items-center space-x-4">
@@ -110,11 +111,15 @@ export default function Dashboard() {
 
         <div>
           <h2 className="text-lg font-semibold mb-4">Human Resource</h2>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {hrStats.map((stat) => (
               <Card 
                 key={stat.title} 
-                className="p-6"
+                className="p-6 transition-transform hover:scale-105 cursor-pointer hover:bg-gray-50"
+                onClick={() => {
+                  console.log('Clicked:', stat.href);
+                  stat.href && navigate(stat.href);
+                }}
               >
                 <div className="flex items-center space-x-4">
                   <div className="p-2 bg-primary/10 rounded-full">

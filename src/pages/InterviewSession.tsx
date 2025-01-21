@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Edit, Pause, Play, Square, Send } from "lucide-react";
+import { Edit, Pause, Play, Square, Send, Circle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 type InterviewStatus = "ongoing" | "paused" | "ended";
@@ -69,6 +69,12 @@ export default function InterviewSession() {
                   <h2 className="text-xl font-semibold">{session.title}</h2>
                   <p className="text-sm text-muted-foreground mt-1">
                     Status: <span className="capitalize">{session.status}</span>
+                    {session.status === "ongoing" && (
+                      <Circle className="h-3 w-3 inline ml-2 text-green-500 fill-green-500" />
+                    )}
+                    {session.status === "paused" && (
+                      <Circle className="h-3 w-3 inline ml-2 text-orange-500 fill-orange-500" />
+                    )}
                   </p>
                 </div>
                 <Button variant="outline" size="icon">
@@ -98,6 +104,13 @@ export default function InterviewSession() {
                       <Square className="h-4 w-4 mr-2" />
                       Stop Interview
                     </Button>
+                    <Button 
+                      variant="default"
+                      onClick={() => navigate('/send-invite')}
+                    >
+                      <Send className="h-4 w-4 mr-2" />
+                      Send Invite
+                    </Button>
                   </>
                 )}
                 {session.status === "paused" && (
@@ -109,10 +122,6 @@ export default function InterviewSession() {
                     Resume Interview
                   </Button>
                 )}
-                <Button onClick={() => navigate("/send-invite")}>
-                  <Send className="h-4 w-4 mr-2" />
-                  Send Invite
-                </Button>
               </div>
             </div>
           </Card>

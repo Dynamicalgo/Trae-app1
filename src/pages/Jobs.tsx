@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Plus, Users, Calendar, Edit2, Link2, Check } from "lucide-react";
+import { Plus, Users, Calendar, Edit2, Link2, Check, Linkedin, Globe, Building } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
@@ -75,7 +75,7 @@ export default function Jobs() {
     <div className="space-y-8">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Jobs</h1>
+          <h1 className="text-2xl font-bold tracking-tight">Job Posted</h1>
           <p className="text-muted-foreground">
             Manage your job postings and track applications
           </p>
@@ -149,6 +149,45 @@ export default function Jobs() {
                     <Link2 className="mr-2 h-4 w-4" />
                   )}
                   {copiedId === job.id ? "Copied!" : "Copy URL"}
+                </Button>
+
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-blue-600 hover:bg-blue-50"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    window.open('https://www.linkedin.com/post/new', '_blank');
+                  }}
+                >
+                  <Linkedin className="mr-2 h-4 w-4" />
+                  Post on LinkedIn
+                </Button>
+
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-blue-600 hover:bg-blue-50"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    window.open('https://employers.indeed.com/p/post-job', '_blank');
+                  }}
+                >
+                  <Globe className="mr-2 h-4 w-4" />
+                  Post on Indeed
+                </Button>
+
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-blue-600 hover:bg-blue-50"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    window.open('https://www.jobstreet.com.sg/en/cms/employer/', '_blank');
+                  }}
+                >
+                  <Building className="mr-2 h-4 w-4" />
+                  Post on JobStreet
                 </Button>
               </div>
               <p className="text-xs text-muted-foreground pl-2">
