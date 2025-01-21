@@ -1,41 +1,51 @@
-import React, { useState } from "react";
+import { useState, FormEvent } from "react";
+import { Paperclip, Mic, CornerDownLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { useToast } from "@/hooks/use-toast";
-import { Send } from "lucide-react";
+import {
+  ChatBubble,
+  ChatBubbleAvatar,
+  ChatBubbleMessage,
+} from "@/components/ui/chat-bubble";
+import { ChatMessageList } from "@/components/ui/chat-message-list";
+import { ChatInput } from "@/components/ui/chat-input";
 
 interface Message {
-  role: "user" | "assistant";
+  id: number;
   content: string;
+  sender: "user" | "assistant";
 }
 
 export default function HRChatbot() {
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      id: 1,
+      content: "Hello! I'm your HR Assistant. How can I help you today?",
+      sender: "assistant",
+    },
+  ]);
   const [input, setInput] = useState("");
-  const [webhookUrl, setWebhookUrl] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const { toast } = useToast();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const WEBHOOK_URL = "https://hook.eu2.make.com/7puojsf4783krbd3ni4y92a1diw37nj7";
+
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!input.trim()) return;
-    if (!webhookUrl) {
-      toast({
-        title: "Webhook URL Required",
-        description: "Please enter your Make.com webhook URL to continue",
-        variant: "destructive",
-      });
-      return;
-    }
 
     const userMessage = input;
     setInput("");
-    setMessages(prev => [...prev, { role: "user", content: userMessage }]);
+    
+    // Add user message to chat
+    setMessages(prev => [...prev, {
+      id: prev.length + 1,
+      content: userMessage,
+      sender: "user"
+    }]);
+    
     setIsLoading(true);
 
     try {
-      const response = await fetch(webhookUrl, {
+      await fetch(WEBHOOK_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -51,9 +61,10 @@ export default function HRChatbot() {
       setTimeout(() => {
         setMessages(prev => [
           ...prev,
-          { 
-            role: "assistant", 
-            content: "I've received your message and am processing it. You'll see the response in your Make.com scenario." 
+          {
+            id: prev.length + 1,
+            content: "I've received your message and am processing it. You'll see the response in your Make.com scenario.",
+            sender: "assistant"
           }
         ]);
         setIsLoading(false);
@@ -61,73 +72,87 @@ export default function HRChatbot() {
 
     } catch (error) {
       console.error("Error sending message:", error);
-      toast({
-        title: "Error",
-        description: "Failed to send message. Please check your webhook URL and try again.",
-        variant: "destructive",
-      });
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="flex flex-col h-[500px] border rounded-lg">
-      <div className="p-4 border-b">
-        <Input
-          type="url"
-          placeholder="Enter your Make.com webhook URL"
-          value={webhookUrl}
-          onChange={(e) => setWebhookUrl(e.target.value)}
-          className="mb-2"
-        />
-        <p className="text-sm text-muted-foreground">
-          Enter your Make.com webhook URL to connect the HR chatbot
-        </p>
-      </div>
-
-      <ScrollArea className="flex-1 p-4">
-        <div className="space-y-4">
-          {messages.map((message, i) => (
-            <div
-              key={i}
-              className={`flex ${
-                message.role === "user" ? "justify-end" : "justify-start"
-              }`}
+    <div className="h-[500px] border bg-background rounded-lg flex flex-col">
+      <div className="flex-1 overflow-hidden">
+        <ChatMessageList>
+          {messages.map((message) => (
+            <ChatBubble
+              key={message.id}
+              variant={message.sender === "user" ? "sent" : "received"}
             >
-              <div
-                className={`max-w-[80%] rounded-lg p-3 ${
-                  message.role === "user"
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-muted"
-                }`}
+              <ChatBubbleAvatar
+                className="h-8 w-8 shrink-0"
+                src={
+                  message.sender === "user"
+                    ? "/placeholder.svg"
+                    : "/lovable-uploads/35cee2f9-1f94-4626-930c-cbfed4a21b40.png"
+                }
+                fallback={message.sender === "user" ? "U" : "AI"}
+              />
+              <ChatBubbleMessage
+                variant={message.sender === "user" ? "sent" : "received"}
               >
                 {message.content}
-              </div>
-            </div>
+              </ChatBubbleMessage>
+            </ChatBubble>
           ))}
-          {isLoading && (
-            <div className="flex justify-start">
-              <div className="max-w-[80%] rounded-lg p-3 bg-muted">
-                <span className="animate-pulse">...</span>
-              </div>
-            </div>
-          )}
-        </div>
-      </ScrollArea>
 
-      <form onSubmit={handleSubmit} className="p-4 border-t">
-        <div className="flex gap-2">
-          <Input
-            placeholder="Type your message..."
+          {isLoading && (
+            <ChatBubble variant="received">
+              <ChatBubbleAvatar
+                className="h-8 w-8 shrink-0"
+                src="/lovable-uploads/35cee2f9-1f94-4626-930c-cbfed4a21b40.png"
+                fallback="AI"
+              />
+              <ChatBubbleMessage isLoading />
+            </ChatBubble>
+          )}
+        </ChatMessageList>
+      </div>
+
+      <div className="p-4 border-t">
+        <form
+          onSubmit={handleSubmit}
+          className="relative rounded-lg border bg-background focus-within:ring-1 focus-within:ring-ring p-1"
+        >
+          <ChatInput
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            disabled={isLoading}
+            placeholder="Type your message..."
+            className="min-h-12 resize-none rounded-lg bg-background border-0 p-3 shadow-none focus-visible:ring-0"
           />
-          <Button type="submit" disabled={isLoading}>
-            <Send className="h-4 w-4" />
-          </Button>
-        </div>
-      </form>
+          <div className="flex items-center p-3 pt-0 justify-between">
+            <div className="flex">
+              <Button
+                variant="ghost"
+                size="icon"
+                type="button"
+                disabled
+              >
+                <Paperclip className="size-4" />
+              </Button>
+
+              <Button
+                variant="ghost"
+                size="icon"
+                type="button"
+                disabled
+              >
+                <Mic className="size-4" />
+              </Button>
+            </div>
+            <Button type="submit" size="sm" className="ml-auto gap-1.5">
+              Send Message
+              <CornerDownLeft className="size-3.5" />
+            </Button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }
